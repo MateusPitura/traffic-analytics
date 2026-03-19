@@ -1,6 +1,10 @@
 import { COOKIE_NAME } from './constants';
 import { parseCookies } from './parseCookies';
-import { Actions, Fields } from './types';
+import { Actions, BotManagement, Fields, StringValue } from './types';
+
+function s(value: unknown): StringValue {
+	return { stringValue: String(value) };
+}
 
 export function collectFields(request: Request): Fields {
 	const cookies = parseCookies(request);
@@ -10,22 +14,27 @@ export function collectFields(request: Request): Fields {
 		sessionId = crypto.randomUUID();
 	}
 
+	const botManagement = request.cf?.botManagement as BotManagement | undefined;
+	const cf = request.cf;
+	const headers = request.headers;
+
 	return {
-		sessionId: { stringValue: sessionId },
+		sessionId: s(sessionId),
 		createdAt: { timestampValue: new Date().toISOString() },
-		location: {
-			mapValue: {
-				fields: {
-					city: { stringValue: (request.cf?.city as string) || 'Unknown' },
-					country: { stringValue: (request.cf?.country as string) || 'Unknown' },
-					latitude: { stringValue: (request.cf?.latitude as string) || 'Unknown' },
-					longitude: { stringValue: (request.cf?.longitude as string) || 'Unknown' },
-					region: { stringValue: (request.cf?.region as string) || 'Unknown' },
-					timezone: { stringValue: (request.cf?.timezone as string) || 'Unknown' },
-				},
-			},
-		},
-		ip: { stringValue: request.headers.get('CF-Connecting-IP') || 'Unknown' },
+		city: s(cf?.city),
+		region: s(cf?.region),
+		country: s(cf?.country),
+		latitude: s(cf?.latitude),
+		longitude: s(cf?.longitude),
+		timezone: s(cf?.timezone),
+		acceptLanguage: s(headers.get('accept-language')),
 		action: { stringValue: Actions.VISIT },
+		score: s(botManagement?.score),
+		verifiedBot: s(botManagement?.verifiedBot),
+		url: s(request.url),
+		referer: s(headers.get('referer')),
+		ua: s(headers.get('user-agent')),
+		ip: s(headers.get('CF-Connecting-IP')),
+		asOrganization: s(cf?.asOrganization),
 	};
 }

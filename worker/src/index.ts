@@ -14,8 +14,12 @@ export default {
 			});
 		}
 
-		if (request.method !== 'POST' || url.pathname !== '/') {
+		if (request.method !== 'POST') {
 			return new Response('Method Not Allowed', { status: 405 });
+		}
+
+		if (url.pathname !== '/') {
+			return new Response('Not Found', { status: 404 });
 		}
 
 		const fields = collectFields(request);

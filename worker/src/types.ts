@@ -3,18 +3,12 @@ export interface Env {
 	FIREBASE_API_KEY: string;
 }
 
-interface StringValue {
+export interface StringValue {
 	stringValue: string;
 }
 
 interface TimestampValue {
 	timestampValue: string;
-}
-
-interface ObjectValue<T> {
-	mapValue: {
-		fields: T;
-	};
 }
 
 export enum Actions {
@@ -28,14 +22,24 @@ export enum Actions {
 export interface Fields {
 	sessionId: StringValue;
 	createdAt: TimestampValue;
-	location: ObjectValue<{
-		latitude: StringValue;
-		longitude: StringValue;
-		country: StringValue;
-		city: StringValue;
-		region: StringValue;
-		timezone: StringValue;
-	}>;
+	latitude: StringValue;
+	longitude: StringValue;
+	country: StringValue;
+	city: StringValue;
+	region: StringValue;
+	timezone: StringValue;
 	ip: StringValue;
 	action: StringValue;
+	score: StringValue;
+	verifiedBot: StringValue;
+	url: StringValue;
+	referer: StringValue;
+	ua: StringValue;
+	acceptLanguage: StringValue;
+	asOrganization: StringValue;
+}
+
+export interface BotManagement {
+	score?: string;
+	verifiedBot?: string;
 }
