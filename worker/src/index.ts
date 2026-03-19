@@ -14,8 +14,7 @@ export default {
 			});
 		}
 
-		if (request.method !== 'GET' || url.pathname !== '/') {
-			// 🌠 the correct is post
+		if (request.method !== 'POST' || url.pathname !== '/') {
 			return new Response('Method Not Allowed', { status: 405 });
 		}
 
