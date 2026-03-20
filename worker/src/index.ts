@@ -22,15 +22,15 @@ export default {
 			return new Response('Not Found', { status: 404 });
 		}
 
-		const fields = collectFields(request);
+		const fields = await collectFields(request);
 
 		ctx.waitUntil(logToFirestore(env, fields));
 
 		return new Response(null, {
 			status: 204,
 			headers: {
-				'Set-Cookie': `${COOKIE_NAME}=${fields.sessionId.stringValue}; Path=/; Max-Age=31536000; SameSite=Lax`,
-				...corsHeaders
+				'Set-Cookie': `${COOKIE_NAME}=${fields.worker.cookieId.stringValue}; Path=/; Max-Age=31536000; SameSite=None; Secure`,
+				...corsHeaders,
 			},
 		});
 	},
