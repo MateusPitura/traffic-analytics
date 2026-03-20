@@ -1,6 +1,6 @@
 import { collectFields } from './collectFields';
 import { COOKIE_NAME, corsHeaders } from './constants';
-import { logToFirestore } from './logToFirestore';
+import { sendToFirestore } from './sendToFirestore';
 import { Env } from './types';
 
 export default {
@@ -22,14 +22,14 @@ export default {
 			return new Response('Not Found', { status: 404 });
 		}
 
-		const fields = await collectFields(request);
+		const {cookieId, fields} = await collectFields(request);
 
-		ctx.waitUntil(logToFirestore(env, fields));
+		ctx.waitUntil(sendToFirestore(env, fields));
 
 		return new Response(null, {
 			status: 204,
 			headers: {
-				'Set-Cookie': `${COOKIE_NAME}=${fields.worker.mapValue.fields.cookieId.stringValue}; Path=/; Max-Age=31536000; SameSite=None; Secure`,
+				'Set-Cookie': `${COOKIE_NAME}=${cookieId}; Path=/; Max-Age=31536000; SameSite=None; Secure`,
 				...corsHeaders,
 			},
 		});

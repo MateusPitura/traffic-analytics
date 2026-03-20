@@ -2,7 +2,7 @@ import type { ClientEventData, ClientVisitData } from "@shared/types";
 
 const ENDPOINT = "https://traffic-analytics.mateuspitura.workers.dev";
 
-export function sendToWorker(data: ClientVisitData | ClientEventData): void {
+export function sendToWorker(data: ClientVisitData | ClientEventData[]): void {
   try {
     navigator.sendBeacon(ENDPOINT, JSON.stringify(data)); // 🌠 maybe keep only one
   } catch {
