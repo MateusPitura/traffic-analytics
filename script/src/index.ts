@@ -1,57 +1,23 @@
-import { load as fingerprintLoad } from "@fingerprintjs/fingerprintjs";
-import { Actions, type ClientData } from "@shared/types";
-
-interface Navigator {
-  connection?: {
-    saveData?: boolean;
-    type?: string;
-  };
-}
+import { Action } from "@shared/types";
+import { collectVisitData } from "./collectVisitData";
+import { sendToWorker } from "./sendToWorker";
 
 (async function () {
-  const ENDPOINT = "https://traffic-analytics.mateuspitura.workers.dev";
+  const visitData = await collectVisitData();
 
-  let localStorageId = localStorage.getItem(
-    "traffic_analytics_local_storage_id"
-  );
-  if (!localStorageId) {
-    localStorageId = crypto.randomUUID();
-    localStorage.setItem("traffic_analytics_local_storage_id", localStorageId);
-  }
+  sendToWorker(visitData);
 
-  const fingerprintClient = await fingerprintLoad();
-  const fingerprint = await fingerprintClient.get();
-
-  const connection = (navigator as Navigator)?.connection;
-
-  const data: ClientData = {
-    ua: navigator?.userAgent ?? null,
-    referer: document?.referrer ?? null,
-    url: location?.href ?? null,
-    timestamp: new Date()?.toISOString() ?? null,
-    timezone: Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone,
-    innerWidth: window?.innerWidth ?? null,
-    innerHeight: window?.innerHeight ?? null,
-    outerWidth: window?.outerWidth ?? null,
-    outerHeight: window?.outerHeight ?? null,
-    dpr: window?.devicePixelRatio ?? null,
-    saveData: connection?.saveData ?? null,
-    type: connection?.type ?? null,
-    language: navigator?.language,
-    cookieEnabled: navigator?.cookieEnabled,
-    fingerprint: fingerprint.visitorId,
-    localStorageId,
-    action: Actions.VISIT,
-  };
-
-  try {
-    navigator.sendBeacon(ENDPOINT, JSON.stringify(data)); // 🌠 maybe keep only one
-  } catch {
-    fetch(ENDPOINT, {
-      method: "POST",
-      body: JSON.stringify(data),
-      keepalive: true,
-      credentials: "include",
-    });
-  }
+  document.addEventListener("click", (e) => {
+    console.log('🌠 e: ', e);
+    const target = e.target as HTMLElement;
+    if (target?.dataset?.['traffic-analytics']) {
+      console.log('🌠 sent to work');
+      sendToWorker({
+        action: Action.CLICK,
+        localStorageId: visitData.localStorageId,
+        timestamp: new Date().toISOString(),
+        metadata: target.dataset['traffic-analytics'], // 🌠 get value data-set value
+      });
+    }
+  });
 })();

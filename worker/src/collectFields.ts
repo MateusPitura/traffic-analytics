@@ -1,11 +1,8 @@
-import { ClientData, Fields, StringValue } from '@shared/types';
+import { Action, ClientData, ClientEventData, ClientVisitData, Fields } from '@shared/types';
 import { COOKIE_NAME } from './constants';
+import { s } from './formatToStringValue';
 import { parseCookies } from './parseCookies';
 import { BotManagement } from './types';
-
-function s(value: unknown): StringValue {
-	return { stringValue: String(value) };
-}
 
 export async function collectFields(request: Request): Promise<Fields> {
 	const cookies = parseCookies(request);
@@ -15,10 +12,37 @@ export async function collectFields(request: Request): Promise<Fields> {
 		cookieId = crypto.randomUUID();
 	}
 
+	const body = (await request.json()) as ClientData | undefined;
+
+	if (body?.action !== Action.VISIT) {
+		const clientEventData = body as ClientEventData;
+
+		return {
+			worker: {
+				mapValue: {
+					fields: {
+						cookieId: s(cookieId),
+						timestamp: { timestampValue: new Date().toISOString() },
+					},
+				},
+			},
+			client: {
+				mapValue: {
+					fields: {
+						localStorageId: s(clientEventData?.localStorageId),
+						timestamp: { timestampValue: clientEventData?.timestamp as string },
+						metadata: s(clientEventData?.metadata),
+						action: s(clientEventData?.action),
+					},
+				},
+			},
+		};
+	}
+
 	const botManagement = request.cf?.botManagement as BotManagement | undefined;
 	const cf = request.cf;
 	const headers = request.headers;
-	const body = (await request.json()) as ClientData | undefined;
+	const clientVisitData = body as ClientVisitData;
 
 	return {
 		worker: {
@@ -46,23 +70,23 @@ export async function collectFields(request: Request): Promise<Fields> {
 		client: {
 			mapValue: {
 				fields: {
-					localStorageId: s(body?.localStorageId),
-					timestamp: { timestampValue: body?.timestamp as string },
-					url: s(body?.url),
-					referer: s(body?.referer),
-					ua: s(body?.ua),
-					timezone: s(body?.timezone),
-					language: s(body?.language),
-					innerWidth: s(body?.innerWidth),
-					innerHeight: s(body?.innerHeight),
-					outerWidth: s(body?.outerWidth),
-					outerHeight: s(body?.outerHeight),
-					dpr: s(body?.dpr),
-					saveData: s(body?.saveData),
-					type: s(body?.type),
-					cookieEnabled: s(body?.cookieEnabled),
-					fingerprint: s(body?.fingerprint),
-					action: s(body?.action),
+					localStorageId: s(clientVisitData?.localStorageId),
+					timestamp: { timestampValue: clientVisitData?.timestamp as string },
+					url: s(clientVisitData?.url),
+					referer: s(clientVisitData?.referer),
+					ua: s(clientVisitData?.ua),
+					timezone: s(clientVisitData?.timezone),
+					language: s(clientVisitData?.language),
+					innerWidth: s(clientVisitData?.innerWidth),
+					innerHeight: s(clientVisitData?.innerHeight),
+					outerWidth: s(clientVisitData?.outerWidth),
+					outerHeight: s(clientVisitData?.outerHeight),
+					dpr: s(clientVisitData?.dpr),
+					saveData: s(clientVisitData?.saveData),
+					type: s(clientVisitData?.type),
+					cookieEnabled: s(clientVisitData?.cookieEnabled),
+					fingerprint: s(clientVisitData?.fingerprint),
+					action: s(clientVisitData?.action),
 				},
 			},
 		},
