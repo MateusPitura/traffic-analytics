@@ -29,7 +29,7 @@ export default {
 		return new Response(null, {
 			status: 204,
 			headers: {
-				'Set-Cookie': `${COOKIE_NAME}=${fields.worker.cookieId.stringValue}; Path=/; Max-Age=31536000; SameSite=None; Secure`,
+				'Set-Cookie': `${COOKIE_NAME}=${fields.worker.mapValue.fields.cookieId.stringValue}; Path=/; Max-Age=31536000; SameSite=None; Secure`,
 				...corsHeaders,
 			},
 		});

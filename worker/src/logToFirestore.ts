@@ -1,4 +1,5 @@
-import { Env, Fields } from './types';
+import { Fields } from '@shared/types';
+import { Env } from './types';
 
 const collectionName = 'logs';
 

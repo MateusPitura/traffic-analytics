@@ -6,6 +6,12 @@ interface TimestampValue {
   timestampValue: string;
 }
 
+interface ObjectValue<T> {
+  mapValue: {
+    fields: T;
+  };
+}
+
 export enum Actions {
   VISIT = "visit",
   CLICK = "click",
@@ -39,7 +45,7 @@ type ClientFields = {
 };
 
 export interface Fields {
-  worker: {
+  worker: ObjectValue<{
     cookieId: StringValue;
     timestamp: TimestampValue;
     url: StringValue;
@@ -56,6 +62,6 @@ export interface Fields {
     asOrganization: StringValue;
     score: StringValue;
     verifiedBot: StringValue;
-  };
-  client: ClientFields;
+  }>;
+  client: ObjectValue<ClientFields>;
 }
