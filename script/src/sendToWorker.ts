@@ -4,7 +4,7 @@ const ENDPOINT = "https://traffic-analytics.mateuspitura.workers.dev";
 
 export function sendToWorker(data: ClientVisitData | ClientEventData[]): void {
   try {
-    navigator.sendBeacon(ENDPOINT, JSON.stringify(data)); // 🌠 maybe keep only one
+    navigator.sendBeacon(ENDPOINT, JSON.stringify(data));
   } catch {
     fetch(ENDPOINT, {
       method: "POST",
