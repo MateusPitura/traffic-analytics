@@ -2,7 +2,7 @@ import { Action, type ClientEventData } from "@shared/types";
 import { sendToWorker } from "./sendToWorker";
 
 interface HandleEventsProperties {
-  localStorageId: string;
+  sessionId: string;
 }
 
 const CLICK_BATCH_DELAY = 3_000;
@@ -19,7 +19,7 @@ function flushEvents() {
   flushTimeout = null;
 }
 
-export function handleEvents({ localStorageId }: HandleEventsProperties): void {
+export function handleEvents({ sessionId }: HandleEventsProperties): void {
   document.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
     const dataset = target?.dataset?.["analytics"];
@@ -28,7 +28,7 @@ export function handleEvents({ localStorageId }: HandleEventsProperties): void {
 
     eventQueue.push({
       action: Action.CLICK,
-      localStorageId: localStorageId,
+      sessionId,
       timestamp: new Date().toISOString(),
       metadata: dataset,
     });

@@ -3,30 +3,56 @@ import { Env } from './types';
 
 const collectionName = 'logs';
 
-export async function sendToFirestore(env: Env, fields: Fields[]) {
+export async function sendToFirestore(env: Env, fields: Fields) {
 	const projectId = env.FIREBASE_PROJECT_ID;
-	const apiKey = env.FIREBASE_API_KEY;
 
-	const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents:commit?key=${apiKey}`;
+	const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents:commit`;
 
-	const writes = [];
-	for (const item of fields) {
-		const documentId = crypto.randomUUID();
-		writes.push({
+	let writes;
+	if (Array.isArray(fields)) {
+		const values = [];
+		for (const item of fields) {
+			values.push({
+				mapValue: {
+					fields: item,
+				},
+			});
+		}
+
+		const documentId = fields[0].sessionId;
+		writes = [
+			{
+				transform: {
+					document: `projects/${projectId}/databases/(default)/documents/${collectionName}/${documentId}`,
+					fieldTransforms: [
+						{
+							fieldPath: 'events',
+							appendMissingElements: {
+								values,
+							},
+						},
+					],
+				},
+			},
+		];
+	} else {
+		const documentId = fields.client.mapValue.fields.sessionId.stringValue;
+		writes = {
 			update: {
 				name: `projects/${projectId}/databases/(default)/documents/${collectionName}/${documentId}`,
-				fields: item,
+				fields,
 			},
-		});
+		};
 	}
 
-	await fetch(url, {
+	const result = await fetch(url, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify({
-			writes,
+			writes: [writes],
 		}),
 	});
+	console.log('🌠 result: ', result);
 }

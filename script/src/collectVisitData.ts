@@ -23,22 +23,23 @@ export async function collectVisitData(): Promise<ClientVisitData> {
   const fingerprint = await fingerprintClient.get();
 
   return {
-    ua: navigator?.userAgent ?? null,
-    referer: document?.referrer ?? null,
-    url: location?.href ?? null,
-    timestamp: new Date()?.toISOString() ?? null,
-    timezone: Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone,
-    innerWidth: window?.innerWidth ?? null,
-    innerHeight: window?.innerHeight ?? null,
-    outerWidth: window?.outerWidth ?? null,
-    outerHeight: window?.outerHeight ?? null,
-    dpr: window?.devicePixelRatio ?? null,
-    saveData: connection?.saveData ?? null,
-    type: connection?.type ?? null,
-    language: navigator?.language,
-    cookieEnabled: navigator?.cookieEnabled,
-    fingerprint: fingerprint.visitorId,
+    ua: String(navigator?.userAgent),
+    referer: String(document?.referrer),
+    url: String(location?.href),
+    timestamp: String(new Date().toISOString()),
+    timezone: String(Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone),
+    innerWidth: String(window?.innerWidth),
+    innerHeight: String(window?.innerHeight),
+    outerWidth: String(window?.outerWidth),
+    outerHeight: String(window?.outerHeight),
+    dpr: String(window?.devicePixelRatio),
+    saveData: !!connection?.saveData,
+    type: String(connection?.type),
+    language: String(navigator?.language),
+    cookieEnabled: !!navigator?.cookieEnabled,
+    fingerprint: String(fingerprint.visitorId),
     localStorageId,
     action: Action.VISIT,
+    sessionId: crypto.randomUUID()
   };
 }

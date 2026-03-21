@@ -2,10 +2,6 @@ export interface StringValue {
   stringValue: string;
 }
 
-interface TimestampValue {
-  timestampValue: string;
-}
-
 interface ObjectValue<T> {
   mapValue: {
     fields: T;
@@ -18,51 +14,45 @@ export enum Action {
   OTHER = "other",
 }
 
-export interface ClientData {
-  localStorageId: string;
-  timestamp: string | null;
+interface ClientData {
+  timestamp: string;
   action: Action;
+  sessionId: string;
 }
 
 export interface ClientVisitData extends ClientData {
-  url: string | null;
-  referer: string | null;
-  ua: string | null;
-  timezone: string | undefined;
+  localStorageId: string;
+  url: string;
+  referer: string;
+  ua: string;
+  timezone: string;
   language: string;
-  innerWidth: number | null;
-  innerHeight: number | null;
-  outerWidth: number | null;
-  outerHeight: number | null;
-  dpr: number | null;
-  saveData: boolean | null;
-  type: string | null;
+  innerWidth: string;
+  innerHeight: string;
+  outerWidth: string;
+  outerHeight: string;
+  dpr: string;
+  saveData: boolean;
+  type: string;
   cookieEnabled: boolean;
   fingerprint: string;
 }
 
 type ClientVisitFields = {
-  [K in keyof ClientVisitData]: K extends "timestamp"
-    ? TimestampValue
-    : StringValue;
+  [K in keyof ClientVisitData]: StringValue;
 };
 
 export interface ClientEventData extends ClientData {
   metadata: string | null;
 }
 
-type ClientEventFields = {
-  [K in keyof ClientEventData]: K extends "timestamp"
-    ? TimestampValue
-    : StringValue;
+export type ClientEventFields = {
+  [K in keyof ClientEventData]: StringValue;
 };
 
 interface WorkerFields {
   cookieId: StringValue;
-  timestamp: TimestampValue;
-}
-
-interface WorkerVisitFields extends WorkerFields {
+  timestamp: StringValue;
   url: StringValue;
   referer: StringValue;
   ua: StringValue;
@@ -79,14 +69,9 @@ interface WorkerVisitFields extends WorkerFields {
   verifiedBot: StringValue;
 }
 
-type WorkerEventFields = WorkerFields;
-
 export type Fields =
   | {
-      worker: ObjectValue<WorkerVisitFields>;
+      worker: ObjectValue<WorkerFields>;
       client: ObjectValue<ClientVisitFields>;
     }
-  | {
-      worker: ObjectValue<WorkerEventFields>;
-      client: ObjectValue<ClientEventFields>;
-    };
+  | ClientEventFields[];

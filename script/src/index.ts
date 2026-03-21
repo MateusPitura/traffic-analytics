@@ -7,5 +7,5 @@ import { sendToWorker } from "./sendToWorker";
 
   sendToWorker(visitData);
 
-  handleEvents({ localStorageId: visitData.localStorageId });
+  handleEvents({ sessionId: visitData.sessionId });
 })();
