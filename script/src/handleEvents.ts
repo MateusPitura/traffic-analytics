@@ -31,6 +31,7 @@ export function handleEvents({ sessionId }: HandleEventsProperties): void {
       sessionId,
       timestamp: new Date().toISOString(),
       metadata: dataset,
+      url: String(location?.href)
     });
 
     if (!flushTimeout) {

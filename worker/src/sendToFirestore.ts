@@ -1,8 +1,6 @@
 import { Fields } from '@shared/types';
 import { Env } from './types';
 
-const collectionName = 'logs';
-
 export async function sendToFirestore(env: Env, fields: Fields) {
 	const projectId = env.FIREBASE_PROJECT_ID;
 
@@ -20,6 +18,8 @@ export async function sendToFirestore(env: Env, fields: Fields) {
 		}
 
 		const documentId = fields[0].sessionId.stringValue;
+		const collectionName = new URL(fields[0].url.stringValue)
+	
 		writes = [
 			{
 				transform: {
@@ -37,6 +37,8 @@ export async function sendToFirestore(env: Env, fields: Fields) {
 		];
 	} else {
 		const documentId = fields.client.mapValue.fields.sessionId.stringValue;
+		const collectionName = new URL(fields.client.mapValue.fields.url.stringValue).host;
+	
 		writes = {
 			update: {
 				name: `projects/${projectId}/databases/(default)/documents/${collectionName}/${documentId}`,

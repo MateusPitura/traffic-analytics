@@ -18,11 +18,11 @@ interface ClientData {
   timestamp: string;
   action: Action;
   sessionId: string;
+  url: string;
 }
 
 export interface ClientVisitData extends ClientData {
   localStorageId: string;
-  url: string;
   referer: string;
   ua: string;
   timezone: string;
