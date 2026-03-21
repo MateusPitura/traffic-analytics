@@ -47,7 +47,7 @@ export async function sendToFirestore(env: Env, fields: Fields) {
 		};
 	}
 
-	const result = await fetch(url, {
+	await fetch(url, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -56,5 +56,4 @@ export async function sendToFirestore(env: Env, fields: Fields) {
 			writes: [writes],
 		}),
 	});
-	console.log('🌠 result: ', result);
 }
