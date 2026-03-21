@@ -18,7 +18,7 @@ export async function sendToFirestore(env: Env, fields: Fields) {
 		}
 
 		const documentId = fields[0].sessionId.stringValue;
-		const collectionName = new URL(fields[0].url.stringValue)
+		const collectionName = new URL(fields[0].url.stringValue).hostname
 	
 		writes = [
 			{
@@ -37,7 +37,7 @@ export async function sendToFirestore(env: Env, fields: Fields) {
 		];
 	} else {
 		const documentId = fields.client.mapValue.fields.sessionId.stringValue;
-		const collectionName = new URL(fields.client.mapValue.fields.url.stringValue).host;
+		const collectionName = new URL(fields.client.mapValue.fields.url.stringValue).hostname;
 	
 		writes = {
 			update: {
