@@ -10,7 +10,7 @@ export const domainService = {
     const results = await Promise.all(
       filteredCollections.map(async (col) => {
         const snapshot = await col
-          .orderBy("client.timestamp", "desc")
+          .orderBy("client.timestamp", "desc")// 🌠 satisfies analytics schema
           .limit(1)
           .get();
 

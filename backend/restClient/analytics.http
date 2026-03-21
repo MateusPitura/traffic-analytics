@@ -1,3 +1,15 @@
 ###
-GET {{BACKEND_URL}}/analytics?collection=localhost HTTP/1.1
+GET {{BACKEND_URL}}/analytics?domain=localhost HTTP/1.1
+Content-Type: application/json
+
+###
+DELETE {{BACKEND_URL}}/analytics?domain=localhost HTTP/1.1
+Content-Type: application/json
+
+{
+  "analyticIds": ["c5b9ca83-fa9f-45b7-ab34-35ecdd5d02b9", "51be1740-0e6e-4969-b1bd-1ac1438cce82"]
+}
+
+###
+POST {{BACKEND_URL}}/analytics/localhost/2095f608-48a4-4ecc-8ba6-a9fe9cf4df57/link/Qc0Ah0whQ8oI84l8sWXq HTTP/1.1
 Content-Type: application/json

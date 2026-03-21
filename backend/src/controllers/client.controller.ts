@@ -35,7 +35,7 @@ export const listClients = async (_req: Request, res: Response) => {
 
 export const updateClient = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { clientId } = req.params;
     const { name, color, observations } = req.body;
 
     const updateData: UpdateClientDTO = {};
@@ -43,7 +43,7 @@ export const updateClient = async (req: Request, res: Response) => {
     if (color) updateData.color = color;
     if (observations) updateData.observations = observations;
 
-    const client = await clientService.update(id as string, updateData);
+    const client = await clientService.update(clientId as string, updateData);
 
     res.json(client);
   } catch (error: any) {

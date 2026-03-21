@@ -18,7 +18,7 @@ export const clientService = {
     await docRef.set(newClient);
 
     return {
-      id: docRef.id,
+      clientId: docRef.id,
     };
   },
 
@@ -26,13 +26,13 @@ export const clientService = {
     const snapshot = await firestore.collection(CLIENT_COLLECTION).get();
 
     return snapshot.docs.map((doc) => ({
-      id: doc.id,
+      clientId: doc.id,
       ...doc.data(),
     }));
   },
 
-  async update(id: string, data: UpdateClientDTO) {
-    const docRef = firestore.collection(CLIENT_COLLECTION).doc(id);
+  async update(clientId: string, data: UpdateClientDTO) {
+    const docRef = firestore.collection(CLIENT_COLLECTION).doc(clientId);
 
     const doc = await docRef.get();
 
@@ -43,7 +43,7 @@ export const clientService = {
     await docRef.update({ ...data });
 
     return {
-      id,
+      clientId,
     };
   },
 };

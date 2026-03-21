@@ -6,11 +6,11 @@ export const listAnalytics = async (
   res: Response
 ) => {
   try {
-    const { collection, cursor } = req.query;
+    const { domain, cursor } = req.query;
 
-    if (!collection || typeof collection !== "string") {
+    if (!domain || typeof domain !== "string") {
       return res.status(400).json({
-        error: "collection query param is required",
+        error: "domain query param is required",
       });
     }
 
@@ -20,7 +20,7 @@ export const listAnalytics = async (
 
     const result =
       await analyticsService.list(
-        collection,
+        domain,
         lastTimestamp
       );
 
@@ -30,5 +30,55 @@ export const listAnalytics = async (
     res.status(500).json({
       error: "Internal server error",
     });
+  }
+};
+
+export const deleteAnalytics = async (req: Request, res: Response) => {
+  try {
+    const { domain } = req.query;
+    const { analyticIds } = req.body;
+
+    if (!domain || typeof domain !== "string") {
+      return res.status(400).json({ error: "domain is required" });
+    }
+
+    if (!Array.isArray(analyticIds) || analyticIds.length === 0) {
+      return res.status(400).json({ error: "analyticIds must be a non-empty array" });
+    }
+
+    const result = await analyticsService.removeMany(domain, analyticIds);
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const linkAnalyticToClient = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { domain, analyticId, clientId } = req.params;
+
+    if (!domain || !analyticId || !clientId) {
+      return res.status(400).json({
+        error: "domain, analyticId and clientId are required",
+      });
+    }
+
+    const result = await analyticsService.linkToClient(
+      domain as string,
+      analyticId as string,
+      clientId as string
+    );
+
+    res.json(result);
+  } catch (error: any) {
+    if (error.message === "Document not found") {
+      return res.status(404).json({ error: error.message });
+    }
+
+    res.status(500).json({ error: "Internal server error" });
   }
 };
