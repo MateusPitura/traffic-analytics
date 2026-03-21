@@ -1,11 +1,10 @@
 import { firestore } from "../config/firestore";
+import { CLIENT_COLLECTION } from "../constants";
 import { CreateClientDTO, UpdateClientDTO } from "../dtos/client.dto";
-
-const COLLECTION = "clients";
 
 export const clientService = {
   async create(data: CreateClientDTO) {
-    const docRef = firestore.collection(COLLECTION).doc();
+    const docRef = firestore.collection(CLIENT_COLLECTION).doc();
 
     const newClient = {
       ...data,
@@ -24,7 +23,7 @@ export const clientService = {
   },
 
   async list() {
-    const snapshot = await firestore.collection(COLLECTION).get();
+    const snapshot = await firestore.collection(CLIENT_COLLECTION).get();
 
     return snapshot.docs.map((doc) => ({
       id: doc.id,
@@ -33,7 +32,7 @@ export const clientService = {
   },
 
   async update(id: string, data: UpdateClientDTO) {
-    const docRef = firestore.collection(COLLECTION).doc(id);
+    const docRef = firestore.collection(CLIENT_COLLECTION).doc(id);
 
     const doc = await docRef.get();
 
