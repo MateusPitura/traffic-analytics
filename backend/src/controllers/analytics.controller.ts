@@ -1,12 +1,9 @@
 import { Request, Response } from "express";
 import { analyticsService } from "../services/analytics.service";
 
-export const listAnalytics = async (
-  req: Request,
-  res: Response
-) => {
+export const listAnalytics = async (req: Request, res: Response) => {
   try {
-    const { domain, cursor } = req.query;
+    const { domain, cursor, clientId } = req.query;
 
     if (!domain || typeof domain !== "string") {
       return res.status(400).json({
@@ -14,15 +11,13 @@ export const listAnalytics = async (
       });
     }
 
-    const lastTimestamp = cursor
-      ? Number(cursor)
-      : undefined;
+    const lastTimestamp = cursor ? Number(cursor) : undefined;
 
-    const result =
-      await analyticsService.list(
-        domain,
-        lastTimestamp
-      );
+    const result = await analyticsService.list(
+      domain,
+      lastTimestamp,
+      typeof clientId === "string" ? clientId : undefined
+    );
 
     res.json(result);
   } catch (error) {
@@ -43,7 +38,9 @@ export const deleteAnalytics = async (req: Request, res: Response) => {
     }
 
     if (!Array.isArray(analyticIds) || analyticIds.length === 0) {
-      return res.status(400).json({ error: "analyticIds must be a non-empty array" });
+      return res
+        .status(400)
+        .json({ error: "analyticIds must be a non-empty array" });
     }
 
     const result = await analyticsService.removeMany(domain, analyticIds);
@@ -54,10 +51,7 @@ export const deleteAnalytics = async (req: Request, res: Response) => {
   }
 };
 
-export const linkAnalyticToClient = async (
-  req: Request,
-  res: Response
-) => {
+export const linkAnalyticToClient = async (req: Request, res: Response) => {
   try {
     const { domain, analyticId, clientId } = req.params;
 

@@ -1,5 +1,5 @@
 ###
-GET {{BACKEND_URL}}/analytics?domain=localhost HTTP/1.1
+GET {{BACKEND_URL}}/analytics?domain=localhost&clientId=Qc0Ah0whQ8oI84l8sWXq HTTP/1.1
 Content-Type: application/json
 
 ###

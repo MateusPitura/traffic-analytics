@@ -1,15 +1,18 @@
-import { FieldValue } from "firebase-admin/firestore";
+import { FieldValue, Query } from "firebase-admin/firestore";
 import { firestore } from "../config/firestore";
 import { CLIENT_COLLECTION } from "../constants";
 
 const PAGE_SIZE = 20;
 
 export const analyticsService = {
-  async list(domainName: string, lastTimestamp?: number) {
-    let query = firestore
-      .collection(domainName)
-      .orderBy("client.timestamp", "desc") // 🌠 // 🌠 satisfies analytics schema
-      .limit(PAGE_SIZE);
+  async list(domainName: string, lastTimestamp?: number, clientId?: string) {
+    let query: Query = firestore.collection(domainName);
+
+    if (clientId) {
+      query = query.where("clientId", "==", clientId);  // 🌠 satisfies analytics schema
+    }
+
+    query = query.orderBy("client.timestamp", "desc").limit(PAGE_SIZE);  // 🌠 satisfies analytics schema
 
     if (lastTimestamp) {
       query = query.startAfter(lastTimestamp);
