@@ -3,3 +3,4 @@ dist/
 .wrangler/
 .dev.vars
 !script/dist/
+serviceAccountKey.json
