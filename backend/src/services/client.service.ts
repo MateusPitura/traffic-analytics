@@ -1,12 +1,13 @@
+import { ClientsCollection } from "@shared/types/firestore";
 import { firestore } from "../config/firestore";
 import { CLIENT_COLLECTION } from "../constants";
-import { CreateClientDTO, UpdateClientDTO } from "../dtos/client.dto";
+import { CreateClientInDto, CreateClientOutDto, ListClientsOutDTO, UpdateClientInDto, UpdateClientOutDto } from "../dtos/client.dto";
 
 export const clientService = {
-  async create(data: CreateClientDTO) {
+  async create(data: CreateClientInDto): Promise<CreateClientOutDto> {
     const docRef = firestore.collection(CLIENT_COLLECTION).doc();
 
-    const newClient = {
+    const newClient: ClientsCollection = {
       ...data,
       linkedCookieId: [],
       linkedFingerprint: [],
@@ -22,16 +23,16 @@ export const clientService = {
     };
   },
 
-  async list() {
+  async list(): Promise<ListClientsOutDTO[]> {
     const snapshot = await firestore.collection(CLIENT_COLLECTION).get();
 
     return snapshot.docs.map((doc) => ({
       clientId: doc.id,
-      ...doc.data(),
+      ...doc.data() as ClientsCollection,
     }));
   },
 
-  async update(clientId: string, data: UpdateClientDTO) {
+  async update(clientId: string, data: UpdateClientInDto): Promise<UpdateClientOutDto> {
     const docRef = firestore.collection(CLIENT_COLLECTION).doc(clientId);
 
     const doc = await docRef.get();

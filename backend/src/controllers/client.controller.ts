@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UpdateClientDTO } from "../dtos/client.dto";
+import { UpdateClientInDto } from "../dtos/client.dto";
 import { clientService } from "../services/client.service";
 
 export const createClient = async (req: Request, res: Response) => {
@@ -38,7 +38,7 @@ export const updateClient = async (req: Request, res: Response) => {
     const { clientId } = req.params;
     const { name, color, observations } = req.body;
 
-    const updateData: UpdateClientDTO = {};
+    const updateData: UpdateClientInDto = {};
     if (name) updateData.name = name;
     if (color) updateData.color = color;
     if (observations) updateData.observations = observations;

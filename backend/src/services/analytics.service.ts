@@ -1,18 +1,31 @@
+import { Path } from "@shared/types";
+import { ClientsCollection, DomainsCollection } from "@shared/types/firestore";
 import { FieldValue, Query } from "firebase-admin/firestore";
 import { firestore } from "../config/firestore";
 import { CLIENT_COLLECTION } from "../constants";
+import {
+  LinkToClientOutDto,
+  ListAnalyticsOutDto,
+  RemoveManyAnalyticsOutDto,
+} from "../dtos/analytics.dto";
 
 const PAGE_SIZE = 20;
+const LIST_QUERY_WHERE: Path<DomainsCollection> = "clientId";
+const LIST_QUERY_SORT: Path<DomainsCollection> = "client.timestamp";
 
 export const analyticsService = {
-  async list(domainName: string, lastTimestamp?: number, clientId?: string) {
+  async list(
+    domainName: string,
+    lastTimestamp?: number,
+    clientId?: string
+  ): Promise<ListAnalyticsOutDto> {
     let query: Query = firestore.collection(domainName);
 
     if (clientId) {
-      query = query.where("clientId", "==", clientId);  // 🌠 satisfies analytics schema
+      query = query.where(LIST_QUERY_WHERE, "==", clientId);
     }
 
-    query = query.orderBy("client.timestamp", "desc").limit(PAGE_SIZE);  // 🌠 satisfies analytics schema
+    query = query.orderBy(LIST_QUERY_SORT, "desc").limit(PAGE_SIZE);
 
     if (lastTimestamp) {
       query = query.startAfter(lastTimestamp);
@@ -22,11 +35,11 @@ export const analyticsService = {
 
     const docs = snapshot.docs.map((doc) => ({
       analyticId: doc.id,
-      ...doc.data(),
+      ...(doc.data() as DomainsCollection),
     }));
 
     const lastDoc = snapshot.docs[snapshot.docs.length - 1];
-    const nextCursor = lastDoc ? lastDoc.get("client.timestamp") : null; // 🌠 satisfies analytics schema
+    const nextCursor = lastDoc ? lastDoc.get(LIST_QUERY_SORT) : null;
 
     return {
       data: docs,
@@ -35,7 +48,10 @@ export const analyticsService = {
     };
   },
 
-  async removeMany(domainName: string, analyticsId: string[]) {
+  async removeMany(
+    domainName: string,
+    analyticsId: string[]
+  ): Promise<RemoveManyAnalyticsOutDto> {
     const batch = firestore.batch();
 
     analyticsId.forEach((analyticId) => {
@@ -50,7 +66,11 @@ export const analyticsService = {
     };
   },
 
-  async linkToClient(domainName: string, analyticId: string, clientId: string) {
+  async linkToClient(
+    domainName: string,
+    analyticId: string,
+    clientId: string
+  ): Promise<LinkToClientOutDto> {
     const analyticRef = firestore.collection(domainName).doc(analyticId);
 
     const clientRef = firestore.collection(CLIENT_COLLECTION).doc(clientId);
@@ -67,7 +87,7 @@ export const analyticsService = {
       throw new Error("Client not found");
     }
 
-    const analyticsData = analyticSnap.data();
+    const analyticsData = analyticSnap.data() as DomainsCollection;
     const clientData = analyticsData?.client || {};
     const workerData = analyticsData?.worker || {};
 
@@ -77,10 +97,9 @@ export const analyticsService = {
       clientId,
     });
 
-    const updateData: any = {}; // 🌠 don't use any
+    const updateData: Partial<Record<keyof ClientsCollection, FieldValue>> = {};
 
     if (workerData.cookieId) {
-      // 🌠 need type
       updateData.linkedCookieId = FieldValue.arrayUnion(workerData.cookieId);
     }
 

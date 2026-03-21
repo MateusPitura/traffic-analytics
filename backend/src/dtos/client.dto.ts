@@ -1,11 +1,18 @@
-export interface CreateClientDTO {
-  name: string;
-  color: string;
-  observations: string;
+import { ClientsCollection } from "@shared/types/firestore";
+
+export type CreateClientInDto = Pick<
+  ClientsCollection,
+  "name" | "color" | "observations"
+>;
+
+export interface CreateClientOutDto {
+  clientId: string;
 }
 
-export interface UpdateClientDTO {
-  name?: string;
-  color?: string;
-  observations?: string;
+export type UpdateClientInDto = Partial<CreateClientInDto>;
+
+export type UpdateClientOutDto = CreateClientOutDto;
+
+export interface ListClientsOutDTO extends ClientsCollection {
+  clientId: string;
 }
