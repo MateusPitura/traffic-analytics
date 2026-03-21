@@ -1,5 +1,4 @@
-import { Fields } from '@shared/types';
-import { Env } from './types';
+import { Env, Fields } from './types';
 
 export async function sendToFirestore(env: Env, fields: Fields) {
 	const projectId = env.FIREBASE_PROJECT_ID;

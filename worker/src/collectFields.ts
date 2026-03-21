@@ -1,8 +1,10 @@
-import { ClientEventData, ClientVisitData, Fields } from '@shared/types';
+import { UnwrapArray } from '@shared/types';
+import { DomainsCollection } from '@shared/types/firestore';
 import { collectEventFields } from './collectEventFields';
 import { collectVisitFields } from './collectVisitFields';
 import { COOKIE_NAME } from './constants';
 import { parseCookies } from './parseCookies';
+import { Fields } from './types';
 
 interface CollectFieldsReturn {
 	fields: Fields;
@@ -25,13 +27,13 @@ export async function collectFields(request: Request): Promise<CollectFieldsRetu
 		for (const item of body) {
 			fields.push(
 				collectEventFields({
-					body: item as ClientEventData,
+					body: item as UnwrapArray<DomainsCollection['events']>,
 				})
 			);
 		}
 	} else {
 		fields = collectVisitFields({
-			body: body as ClientVisitData,
+			body: body as DomainsCollection['client'],
 			cookieId,
 			request,
 		});

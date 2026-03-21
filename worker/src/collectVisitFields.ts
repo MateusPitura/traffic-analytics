@@ -1,11 +1,16 @@
-import { ClientVisitData, Fields } from '@shared/types';
+import { DomainsCollection } from '@shared/types/firestore';
 import { s } from './formatToStringValue';
-import { BotManagement } from './types';
+import { Fields } from './types';
 
 interface CollectVisitFieldsProperties {
 	request: Request;
-	body: ClientVisitData;
+	body: DomainsCollection['client'];
 	cookieId: string;
+}
+
+interface BotManagement {
+	score?: string;
+	verifiedBot?: string;
 }
 
 export function collectVisitFields({ request, body, cookieId }: CollectVisitFieldsProperties): Fields {

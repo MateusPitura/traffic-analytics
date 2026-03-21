@@ -1,5 +1,6 @@
 import { load as fingerprintLoad } from "@fingerprintjs/fingerprintjs";
-import { Action, type ClientVisitData } from "@shared/types";
+import { Action } from "@shared/types";
+import type { DomainsCollection } from "@shared/types/firestore";
 
 interface Navigator {
   connection?: {
@@ -10,7 +11,7 @@ interface Navigator {
 
 const LOCAL_STORAGE_NAME = "traffic_analytics_local_storage_id";
 
-export async function collectVisitData(): Promise<ClientVisitData> {
+export async function collectVisitData(): Promise<DomainsCollection['client']> {
   let localStorageId = localStorage.getItem(LOCAL_STORAGE_NAME);
   if (!localStorageId) {
     localStorageId = crypto.randomUUID();

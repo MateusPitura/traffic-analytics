@@ -1,8 +1,10 @@
-import { ClientEventData, ClientEventFields } from '@shared/types';
+import { UnwrapArray } from '@shared/types';
 import { s } from './formatToStringValue';
+import { DomainsCollection } from '@shared/types/firestore';
+import { ClientEventFields } from './types';
 
 interface CollectEventFieldsProperties {
-    body: ClientEventData
+    body: UnwrapArray<DomainsCollection['events']>
 }
 
 export function collectEventFields({
