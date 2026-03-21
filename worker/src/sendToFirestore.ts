@@ -19,7 +19,7 @@ export async function sendToFirestore(env: Env, fields: Fields) {
 			});
 		}
 
-		const documentId = fields[0].sessionId;
+		const documentId = fields[0].sessionId.stringValue;
 		writes = [
 			{
 				transform: {
