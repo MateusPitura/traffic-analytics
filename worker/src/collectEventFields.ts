@@ -13,5 +13,6 @@ export function collectEventFields({
 		metadata: s(body?.metadata),
 		action: s(body?.action),
 		sessionId: s(body?.sessionId),
+		url: s(body?.url),
 	};
 }
