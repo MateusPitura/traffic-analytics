@@ -11,7 +11,7 @@ export interface ClientsCollection {
   linkedHostname: string[];
 }
 
-export interface DomainsCollection { // 🌠 use type from contract
+export interface DomainsCollection {
   clientId: string;
   client: {
     timestamp: string;

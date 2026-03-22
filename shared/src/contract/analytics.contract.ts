@@ -20,7 +20,7 @@ const analyticsListResponse = s.object({
     s.object({
       clientId: s.string(),
       client: s.object({
-        timestamp: s.string(), // 🌠 maybe force date format
+        timestamp: s.string(),
         action,
         sessionId: s.string(),
         url: s.string(),
@@ -41,7 +41,7 @@ const analyticsListResponse = s.object({
       }),
       worker: s.object({
         cookieId: s.string(),
-        timestamp: s.string(), // 🌠 maybe force date format
+        timestamp: s.string(),
         url: s.string(),
         referer: s.string(),
         ua: s.string(),
@@ -59,7 +59,7 @@ const analyticsListResponse = s.object({
       }),
       events: s.array(
         s.object({
-          timestamp: s.string(), // 🌠 maybe force date format
+          timestamp: s.string(),
           action,
           sessionId: s.string(),
           url: s.string(),
