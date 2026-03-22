@@ -7,7 +7,7 @@ const c = initContract();
 const clientsCreateBody = s.object({
   name: s.string(),
   color: s.color(),
-  observations: s.string().optional(),
+  observations: s.string().nullable(),
 });
 
 const clientsCreateResponse = s.object({

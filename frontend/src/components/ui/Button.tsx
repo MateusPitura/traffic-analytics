@@ -14,6 +14,10 @@ const buttonVariants = cva(
         fit: "w-fit justify-center",
         full: "w-full justify-start",
       },
+      disabled: {
+        true: "opacity-50 cursor-not-allowed pointer-events-none",
+        false: "",
+      },
     },
     defaultVariants: {
       variant: "primary",
@@ -26,11 +30,22 @@ interface ButtonProps extends VariantProps<typeof buttonVariants> {
   className?: string;
   label: string;
   onClick?: () => void;
+  type?: "button" | "submit";
 }
 
-export function Button({ className, label, onClick, ...props }: ButtonProps) { // 🌠 active state on button
+export function Button({
+  className,
+  label,
+  onClick,
+  type = 'button',
+  ...props
+}: ButtonProps) {
   return (
-    <button className={cn(buttonVariants(props), className)} onClick={onClick}>
+    <button
+      className={cn(buttonVariants(props), className)}
+      onClick={onClick}
+      type={type}
+    >
       {label}
     </button>
   );

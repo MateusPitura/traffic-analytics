@@ -7,7 +7,6 @@ import {
   DialogTitle
 } from "@radix-ui/react-dialog";
 import { ReactNode } from "react";
-import { Button } from "./Button";
 
 interface ModalProps {
   isOpen: boolean;
@@ -32,9 +31,6 @@ export function Modal({
           </DialogTitle>
           <DialogDescription className="hidden" />
           {children}
-          <div className="flex justify-end">
-            <Button label="Save" onClick={onClose}/>
-          </div>
         </DialogContent>
       </DialogPortal>
     </Dialog>

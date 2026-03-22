@@ -64,6 +64,7 @@ function TableBody({ data, isLoading }: TableBodyProps) {
       <Table.Cell className="w-full">{row.observations}</Table.Cell>
       <Table.Cell>
         <Button variant={'tertiary'} label="Edit"/>
+        <Button variant={'tertiary'} label="View"/>
       </Table.Cell>
     </Table.Row>
   ));
