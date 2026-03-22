@@ -3,7 +3,7 @@ import { Action } from ".";
 export interface ClientsCollection {
   name: string;
   color: string;
-  observations: string;
+  observations?: string;
   linkedCookieId: string[];
   linkedFingerprint: string[];
   linkedLocalStorageId: string[];
@@ -11,7 +11,7 @@ export interface ClientsCollection {
   linkedHostname: string[];
 }
 
-export interface DomainsCollection {
+export interface DomainsCollection { // 🌠 use type from contract
   clientId: string;
   client: {
     timestamp: string;

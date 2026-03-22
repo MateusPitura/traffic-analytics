@@ -1,56 +1,56 @@
 import { Request, Response } from "express";
-import { UpdateClientInDto } from "../dtos/client.dto";
 import { clientService } from "../services/client.service";
+import { contract } from "@shared/contract";
+import { ServerInferRequest, ServerInferResponses } from "@ts-rest/core";
 
-export const createClient = async (req: Request, res: Response) => {
-  try {
-    const { name, color, observations } = req.body;
+type CreateClientResponse = ServerInferResponses<
+  typeof contract.clients.create
+>;
+type CreateClientRequest = ServerInferRequest<typeof contract.clients.create>;
 
-    if (!name || !color) {
-      return res.status(400).json({
-        error: "name and color are required",
-      });
-    }
-
-    const client = await clientService.create({
-      name,
-      color,
-      observations,
-    });
-
-    res.status(201).json(client);
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
+export const createClient = async ({
+  body,
+}: CreateClientRequest): Promise<CreateClientResponse> => {
+  const client = await clientService.create(body);
+  return {
+    status: 201,
+    body: client,
+  };
 };
 
-export const listClients = async (_req: Request, res: Response) => {
-  try {
-    const clients = await clientService.list();
-    res.json(clients);
-  } catch {
-    res.status(500).json({ error: "Internal server error" });
-  }
+type ListClientsResponse = ServerInferResponses<typeof contract.clients.list>;
+
+export const listClients = async (): Promise<ListClientsResponse> => {
+  const clients = await clientService.list();
+  return {
+    status: 200,
+    body: clients,
+  };
 };
 
-export const updateClient = async (req: Request, res: Response) => {
+type UpdateClientResponse = ServerInferResponses<
+  typeof contract.clients.update
+>;
+type UpdateClientRequest = ServerInferRequest<typeof contract.clients.update>;
+
+export const updateClient = async ({
+  body,
+  params,
+}: UpdateClientRequest): Promise<UpdateClientResponse> => {
   try {
-    const { clientId } = req.params;
-    const { name, color, observations } = req.body;
+    const client = await clientService.update(params.clientId as string, body);
 
-    const updateData: UpdateClientInDto = {};
-    if (name) updateData.name = name;
-    if (color) updateData.color = color;
-    if (observations) updateData.observations = observations;
-
-    const client = await clientService.update(clientId as string, updateData);
-
-    res.json(client);
+    return {
+      status: 200,
+      body: client,
+    };
   } catch (error: any) {
     if (error.message === "Client not found") {
-      return res.status(404).json({ error: error.message });
+      return {
+        status: 404,
+        body: { error: error.message },
+      };
     }
-
-    res.status(500).json({ error: "Internal server error" });
+    throw error;
   }
 };

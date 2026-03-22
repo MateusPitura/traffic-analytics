@@ -4,8 +4,7 @@ Content-Type: application/json
 
 {
     "name": "Client Test",
-    "color": "#FF0000",
-    "observations": "Client test observations"
+    "color": "#FF0000"
 }
 
 ###
@@ -13,9 +12,9 @@ GET {{BACKEND_URL}}/clients HTTP/1.1
 Content-Type: application/json
 
 ###
-PUT {{BACKEND_URL}}/clients/Qc0Ah0whQ8oI84l8sWXq HTTP/1.1
+PUT {{BACKEND_URL}}/clients/DE1kVd81k87mbps14P7u HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Client Test Updated"
+    "observations": "Observations updated"
 }

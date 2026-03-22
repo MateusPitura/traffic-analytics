@@ -1,6 +1,6 @@
 import { DomainsCollection } from "@shared/types/firestore";
 
-export interface ListAnalyticsOutDto {
+export interface ListAnalyticsOutDto { // 🌠 check if i'm still using dtos
     data: DomainsCollection[]
     nextCursor: number | null;
     hasMore: boolean;

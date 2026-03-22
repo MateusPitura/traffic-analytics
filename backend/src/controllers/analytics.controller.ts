@@ -1,78 +1,77 @@
-import { Request, Response } from "express";
+import { contract } from "@shared/contract";
+import { ServerInferRequest, ServerInferResponses } from "@ts-rest/core";
 import { analyticsService } from "../services/analytics.service";
 
-export const listAnalytics = async (req: Request, res: Response) => {
-  try {
-    const { domain, cursor, clientId } = req.query;
+type ListAnalyticsResponse = ServerInferResponses<
+  typeof contract.analytics.list
+>;
+type ListAnalyticsRequest = ServerInferRequest<typeof contract.analytics.list>;
 
-    if (!domain || typeof domain !== "string") {
-      return res.status(400).json({
-        error: "domain query param is required",
-      });
-    }
+export const listAnalytics = async ({
+  query,
+}: ListAnalyticsRequest): Promise<ListAnalyticsResponse> => {
+  const { domain, cursor, clientId } = query;
 
-    const lastTimestamp = cursor ? Number(cursor) : undefined;
+  const lastTimestamp = cursor ? Number(cursor) : undefined;
 
-    const result = await analyticsService.list(
-      domain,
-      lastTimestamp,
-      typeof clientId === "string" ? clientId : undefined
-    );
+  const result = await analyticsService.list(domain, lastTimestamp, clientId);
 
-    res.json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      error: "Internal server error",
-    });
-  }
+  return {
+    status: 200,
+    body: result,
+  };
 };
 
-export const deleteAnalytics = async (req: Request, res: Response) => {
-  try {
-    const { domain } = req.query;
-    const { analyticIds } = req.body;
+type DeleteAnalyticsResponse = ServerInferResponses<
+  typeof contract.analytics.delete
+>;
+type DeleteAnalyticsRequest = ServerInferRequest<
+  typeof contract.analytics.delete
+>;
 
-    if (!domain || typeof domain !== "string") {
-      return res.status(400).json({ error: "domain is required" });
-    }
+export const deleteAnalytics = async ({
+  body,
+}: DeleteAnalyticsRequest): Promise<DeleteAnalyticsResponse> => {
+  const { analyticIds, domain } = body;
 
-    if (!Array.isArray(analyticIds) || analyticIds.length === 0) {
-      return res
-        .status(400)
-        .json({ error: "analyticIds must be a non-empty array" });
-    }
+  const result = await analyticsService.removeMany(domain, analyticIds);
 
-    const result = await analyticsService.removeMany(domain, analyticIds);
-
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
+  return {
+    status: 200,
+    body: result,
+  };
 };
 
-export const linkAnalyticToClient = async (req: Request, res: Response) => {
-  try {
-    const { domain, analyticId, clientId } = req.params;
+type LinkToClientAnalyticsResponse = ServerInferResponses<
+  typeof contract.analytics.linkToClient
+>;
+type LinkToClientAnalyticsRequest = ServerInferRequest<
+  typeof contract.analytics.linkToClient
+>;
 
-    if (!domain || !analyticId || !clientId) {
-      return res.status(400).json({
-        error: "domain, analyticId and clientId are required",
-      });
-    }
+export const linkToClientAnalytics = async ({
+  body,
+}: LinkToClientAnalyticsRequest): Promise<LinkToClientAnalyticsResponse> => {
+  try {
+    const { domain, analyticId, clientId } = body;
 
     const result = await analyticsService.linkToClient(
-      domain as string,
-      analyticId as string,
-      clientId as string
+      domain,
+      analyticId,
+      clientId
     );
 
-    res.json(result);
+    return {
+      status: 200,
+      body: result,
+    };
   } catch (error: any) {
     if (error.message === "Document not found") {
-      return res.status(404).json({ error: error.message });
+      return {
+        status: 404,
+        body: { error: error.message },
+      };
     }
-
-    res.status(500).json({ error: "Internal server error" });
+    throw error;
   }
 };

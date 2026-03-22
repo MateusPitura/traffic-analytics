@@ -1,7 +1,14 @@
-import { Request, Response } from "express";
+import { contract } from "@shared/contract";
+import { ServerInferResponses } from "@ts-rest/core";
 import { domainService } from "../services/domain.service";
 
-export const listDomains = async (req: Request, res: Response) => {
+type ListDomainsResponse = ServerInferResponses<typeof contract.domains.list>;
+
+export const listDomains = async (): Promise<ListDomainsResponse> => {
   const domains = await domainService.list();
-  res.json(domains);
+
+  return {
+    status: 200,
+    body: domains,
+  };
 };

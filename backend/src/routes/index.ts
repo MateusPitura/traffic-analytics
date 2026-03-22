@@ -1,26 +1,32 @@
-import { Router } from "express";
+import { contract } from "@shared/contract";
+import { initServer } from "@ts-rest/express";
+
 import {
-    deleteAnalytics,
-    linkAnalyticToClient,
-    listAnalytics,
+  deleteAnalytics,
+  linkToClientAnalytics,
+  listAnalytics,
 } from "../controllers/analytics.controller";
 import {
-    createClient,
-    listClients,
-    updateClient,
+  createClient,
+  listClients,
+  updateClient,
 } from "../controllers/client.controller";
 import { listDomains } from "../controllers/domain.controller";
 
-const router = Router();
+const s = initServer();
 
-router.get("/domains", listDomains);
-
-router.get("/analytics", listAnalytics);
-router.delete("/analytics", deleteAnalytics);
-router.post("/analytics/:domain/:analyticId/link/:clientId", linkAnalyticToClient);
-
-router.post("/clients", createClient);
-router.get("/clients", listClients);
-router.put("/clients/:clientId", updateClient);
-
-export default router;
+export const router = s.router(contract, {
+  domains: {
+    list: listDomains,
+  },
+  clients: {
+    create: createClient,
+    list: listClients,
+    update: updateClient,
+  },
+  analytics: {
+    list: listAnalytics,
+    delete: deleteAnalytics,
+    linkToClient: linkToClientAnalytics,
+  },
+});
