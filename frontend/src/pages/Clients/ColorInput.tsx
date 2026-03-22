@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { Input } from "../../components/ui/Form/Input";
-import { NewClientInputs } from "./types";
+import { ClientInputs } from "./types";
 
 export function ColorInput(): ReactNode {
-  const { control } = useFormContext<NewClientInputs>();
+  const { control } = useFormContext<ClientInputs>();
 
   const colorWatch = useWatch({
     control,
@@ -13,7 +13,7 @@ export function ColorInput(): ReactNode {
 
   return (
     <div className="flex gap-4 items-center">
-      <Input<NewClientInputs>
+      <Input<ClientInputs>
         name="color"
         label="Color"
         placeholder="#ff0000"

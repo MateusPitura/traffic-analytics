@@ -7,7 +7,7 @@ const c = initContract();
 const clientsCreateBody = s.object({
   name: s.string(),
   color: s.color(),
-  observations: s.string().nullable(),
+  observations: s.string().or(s.empty()),
 });
 
 const clientsCreateResponse = s.object({
@@ -20,6 +20,7 @@ const clientsListResponse = clientsCreateBody.extend({
   linkedLocalStorageId: s.array(s.string()),
   linkedIp: s.array(s.string()),
   linkedHostname: s.array(s.string()),
+  clientId: s.string(),
 });
 
 const clientsUpdatePathParams = s.object({
@@ -30,7 +31,7 @@ const clientsUpdateBody = s
   .object({
     name: s.string(),
     color: s.color(),
-    observations: s.string(),
+    observations: s.string().or(s.empty()),
   })
   .partial();
 

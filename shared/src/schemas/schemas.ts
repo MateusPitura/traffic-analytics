@@ -51,3 +51,5 @@ export function number() {
 }
 
 export const boolean = z.boolean;
+
+export const empty = () => z.literal("");

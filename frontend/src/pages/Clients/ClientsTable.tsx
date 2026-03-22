@@ -4,8 +4,13 @@ import { Button } from "../../components/ui/Button";
 import Spinner from "../../components/ui/Spinner";
 import { Table } from "../../components/ui/Table";
 import { api } from "../../constants";
+import { ClientInputs } from "./types";
 
-export function ClientsTable() {
+interface ClientsTableProps {
+  onEditClient: (clientId: string, defaultValues: ClientInputs) => void;
+}
+
+export function ClientsTable({ onEditClient }: ClientsTableProps) {
   const { data, isFetching } = api.clients.list.useQuery(["clientsList"]);
 
   return (
@@ -18,7 +23,11 @@ export function ClientsTable() {
         </Table.Header>
 
         <Table.Body>
-          <TableBody data={data?.body || []} isLoading={isFetching} />
+          <TableBody
+            data={data?.body || []}
+            isLoading={isFetching}
+            onEditClient={onEditClient}
+          />
         </Table.Body>
       </Table>
       {/* 🌠 here don't need */}
@@ -34,9 +43,10 @@ export function ClientsTable() {
 interface TableBodyProps {
   data: ClientInferResponseBody<typeof contract.clients.list>;
   isLoading?: boolean;
+  onEditClient: (clientId: string, defaultValues: ClientInputs) => void;
 }
 
-function TableBody({ data, isLoading }: TableBodyProps) {
+function TableBody({ data, isLoading, onEditClient }: TableBodyProps) {
   if (isLoading) {
     return (
       <Table.Empty className="flex justify-center">
@@ -63,8 +73,18 @@ function TableBody({ data, isLoading }: TableBodyProps) {
       </Table.Cell>
       <Table.Cell className="w-full">{row.observations}</Table.Cell>
       <Table.Cell>
-        <Button variant={'tertiary'} label="Edit"/>
-        <Button variant={'tertiary'} label="View"/>
+        <Button
+          variant={"tertiary"}
+          label="Edit"
+          onClick={() => {
+            onEditClient(row.clientId, {
+              fullName: row.name,
+              color: row.color,
+              observations: row.observations,
+            });
+          }}
+        />
+        <Button variant={"tertiary"} label="View" />
       </Table.Cell>
     </Table.Row>
   ));

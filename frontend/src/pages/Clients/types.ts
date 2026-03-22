@@ -1,4 +1,4 @@
 import { s } from "@shared/schemas";
-import { NewClientSchema } from "./schemas";
+import { ClientSchema } from "./schemas";
 
-export type NewClientInputs = s.infer<typeof NewClientSchema>;
+export type ClientInputs = s.infer<typeof ClientSchema>;

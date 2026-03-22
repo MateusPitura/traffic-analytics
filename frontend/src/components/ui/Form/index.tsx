@@ -5,7 +5,7 @@ import {
   FieldValues,
   FormProvider,
   useForm,
-  UseFormReturn
+  UseFormReturn,
 } from "react-hook-form";
 import { ZodType } from "zod";
 
@@ -13,26 +13,8 @@ interface FormProps<T extends FieldValues> {
   children: React.ReactNode;
   onSubmit: (data: T) => void;
   defaultValues?: DefaultValues<T>;
-    schema: ZodType;
+  schema: ZodType;
   className?: string;
-  onlyDirty?: boolean;
-}
-
-type Field = Record<string, unknown>;
-
-function getDirtyValues(dirtyFields: Field | boolean, allValues: Field): Field {
-  if (dirtyFields === true || Array.isArray(dirtyFields)) return allValues;
-  return Object.fromEntries(
-    Object.keys(dirtyFields)
-      .filter((key) => (dirtyFields as Field)[key] !== false)
-      .map((key) => [
-        key,
-        getDirtyValues(
-          (dirtyFields as Field)[key] as Field,
-          allValues[key] as Field
-        ),
-      ])
-  );
 }
 
 export function Form<T extends FieldValues>({
@@ -41,24 +23,16 @@ export function Form<T extends FieldValues>({
   defaultValues,
   schema,
   className,
-  onlyDirty,
 }: FormProps<T>): ReactNode {
   const methods: UseFormReturn<T> = useForm<T>({
     defaultValues,
     resolver: zodResolver(schema),
   });
 
-  function handleSubmit(data: Record<string, unknown>) {
-    if (onlyDirty) {
-      onSubmit(getDirtyValues(methods.formState.dirtyFields, data) as T);
-    } else {
-      onSubmit(data as T);
-    }
-  }
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={methods.handleSubmit(handleSubmit)}
+        onSubmit={methods.handleSubmit(onSubmit)}
         noValidate
         className={className}
       >
