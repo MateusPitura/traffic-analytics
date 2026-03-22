@@ -1,9 +1,3 @@
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
 import { Table } from "./Table";
 
 type User = {
@@ -481,108 +475,49 @@ const data: User[] = [
   },
 ];
 
-const columnHelper = createColumnHelper<User>();
-
-const columns = [
-  columnHelper.accessor("name", {
-    header: "Name",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("age", {
-    header: "Age",
-    cell: (info) => info.getValue(),
-  }),
-  // columnHelper.accessor("city", {
-  //   header: "City",
-  //   cell: (info) => info.getValue(),
-  // }),
-  // columnHelper.accessor("country", {
-  //   header: "Country",
-  //   cell: (info) => info.getValue(),
-  // }),
-  // columnHelper.accessor("email", {
-  //   header: "Email",
-  //   cell: (info) => info.getValue(),
-  // }),
-  // columnHelper.accessor("cellphone", {
-  //   header: "Cellphone",
-  //   cell: (info) => info.getValue(),
-  // }),
-  // columnHelper.accessor("region", {
-  //   header: "Region",
-  //   cell: (info) => info.getValue(),
-  // }),
-  // columnHelper.accessor("isActive", {
-  //   header: "Active",
-  //   cell: (info) => (info.getValue() ? "Yes" : "No"),
-  // }),
-  // columnHelper.accessor("role", {
-  //   header: "Role",
-  //   cell: (info) => info.getValue(),
-  // }),
-  // columnHelper.accessor("createdAt", {
-  //   header: "Created At",
-  //   cell: (info) => info.getValue(),
-  // }),
-  // columnHelper.accessor("lastLogin", {
-  //   header: "Last Login",
-  //   cell: (info) => info.getValue(),
-  // }),
-  // columnHelper.accessor("score", {
-  //   header: "Score",
-  //   cell: (info) => info.getValue(),
-  // }),
-];
-
-export function UserTable() {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
+export function DataTableMany() {
   return (
-    <div className="overflow-auto w-full">
+    <div className="flex min-h-0 flex-col h-full">
       <Table>
-        <thead className="sticky top-0 z-10 bg-surface">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <Table.Row key={headerGroup.id} variant={"header"}>
-              {headerGroup.headers.map((header) => (
-                <Table.Head key={header.id}>
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-                </Table.Head>
-              ))}
-            </Table.Row>
-          ))}
-        </thead>
+        <Table.Header>
+          <Table.Head>Name</Table.Head>
+          <Table.Head>Age</Table.Head>
+          <Table.Head>City</Table.Head>
+          <Table.Head>Country</Table.Head>
+          <Table.Head>Email</Table.Head>
+          <Table.Head>Cellphone</Table.Head>
+          <Table.Head>Region</Table.Head>
+          <Table.Head>Active</Table.Head>
+          <Table.Head>Role</Table.Head>
+          <Table.Head>Created At</Table.Head>
+          <Table.Head>Last Login</Table.Head>
+          <Table.Head>Score</Table.Head>
+        </Table.Header>
 
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
+        <Table.Body>
+          {data.map((row) => (
             <Table.Row key={row.id} className="last:border-none">
-              {row.getVisibleCells().map((cell) => (
-                <Table.Cell
-                  key={cell.id}
-                  className={[
-                    cell.column.id === "age" && "min-w-40 truncate",
-                    cell.column.id === "name" && "w-full truncate",
-                  ]}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </Table.Cell>
-              ))}
+              <Table.Cell>{row.name}</Table.Cell>
+              <Table.Cell>{row.age}</Table.Cell>
+              <Table.Cell>{row.city}</Table.Cell>
+              <Table.Cell>{row.country}</Table.Cell>
+              <Table.Cell>{row.email}</Table.Cell>
+              <Table.Cell>{row.cellphone}</Table.Cell>
+              <Table.Cell>{row.region}</Table.Cell>
+              <Table.Cell>{row.isActive ? "Yes" : "No"}</Table.Cell>
+              <Table.Cell>{row.role}</Table.Cell>
+              <Table.Cell>{row.createdAt}</Table.Cell>
+              <Table.Cell>{row.lastLogin}</Table.Cell>
+              <Table.Cell>{row.score}</Table.Cell>
             </Table.Row>
           ))}
-        </tbody>
-
-        {/* <tfoot className="bg-red-500 sticky bottom-0">
-          <Table.Row className="border-none">
-            <Table.Cell>Footer</Table.Cell>
-          </Table.Row>
-        </tfoot> */}
+        </Table.Body>
       </Table>
+      <div className="min-h-12 px-2 border-t border-outline flex gap-4 text-on-surface items-center">
+        <span>Next</span>
+        <span>Previous</span>
+        <span>Showing 10 of 10</span>
+      </div>
     </div>
   );
 }
