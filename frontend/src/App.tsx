@@ -1,17 +1,12 @@
-// const URL = "http://localhost:8787";
-const URL = 'https://traffic-analytics.mateuspitura.workers.dev'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Container } from "./Container";
+
+const queryClient = new QueryClient();
 
 export function App() {
   return (
-    <button
-      onClick={async () => {
-        await fetch(URL, {
-          method: "POST",
-          credentials: "include",
-        });
-      }}
-    >
-      Click me
-    </button>
+    <QueryClientProvider client={queryClient}>
+     <Container/>
+    </QueryClientProvider>
   );
 }
