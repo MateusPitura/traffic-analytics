@@ -8,6 +8,7 @@ const buttonVariants = cva(
       variant: {
         primary: "bg-primary text-on-primary",
         secondary: "bg-transparent border-2 border-primary text-primary",
+        tertiary: "bg-transparent text-primary",
       },
       width: {
         fit: "w-fit justify-center",

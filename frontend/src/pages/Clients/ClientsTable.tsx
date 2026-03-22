@@ -1,5 +1,6 @@
 import { contract } from "@shared/contract";
 import { ClientInferResponseBody } from "@ts-rest/core";
+import { Button } from "../../components/ui/Button";
 import Spinner from "../../components/ui/Spinner";
 import { Table } from "../../components/ui/Table";
 import { api } from "../../constants";
@@ -61,7 +62,9 @@ function TableBody({ data, isLoading }: TableBodyProps) {
         </div>
       </Table.Cell>
       <Table.Cell className="w-full">{row.observations}</Table.Cell>
-      <Table.Cell>Actions</Table.Cell>
+      <Table.Cell>
+        <Button variant={'tertiary'} label="Edit"/>
+      </Table.Cell>
     </Table.Row>
   ));
 }
