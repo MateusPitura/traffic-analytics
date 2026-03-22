@@ -1,12 +1,7 @@
-import { contract } from '@shared/contract';
-import { initQueryClient } from '@ts-rest/react-query';
 import type { ReactNode } from 'react';
+import { api } from '../../constants';
 
-const api = initQueryClient(contract, {
-  baseUrl: "http://localhost:3000",
-});
-
-export function Container(): ReactNode {
+export function DomainsPage(): ReactNode {
   const { data, isFetching } = api.domains.list.useQuery(["domainsList"]);
   
   if (isFetching) {
