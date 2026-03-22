@@ -27,7 +27,7 @@ interface ButtonProps extends VariantProps<typeof buttonVariants> {
   onClick?: () => void;
 }
 
-export function Button({ className, label, onClick, ...props }: ButtonProps) {
+export function Button({ className, label, onClick, ...props }: ButtonProps) { // 🌠 active state on button
   return (
     <button className={cn(buttonVariants(props), className)} onClick={onClick}>
       {label}

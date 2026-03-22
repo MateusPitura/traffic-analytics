@@ -51,3 +51,28 @@
   --color-surface-container-high: rgb(44 41 47);
   --color-surface-container-highest: rgb(55 51 57);
 }
+
+/* START SCROLL BAR */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-outline);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-outline-variant)
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+/* END SCROLL BAR */

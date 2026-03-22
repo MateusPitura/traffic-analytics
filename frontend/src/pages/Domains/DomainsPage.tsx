@@ -5,7 +5,7 @@ import { api } from "../../constants";
 import { DomainContainer } from "./DomainContainer";
 
 export function DomainsPage(): ReactNode {
-  const { data, isFetching } = api.domains.list.useQuery(["domainsList"]); // 🌠 configure type for query key
+  const { data, isFetching } = api.domains.list.useQuery(["domainsList"]);
 
   const sortedDomains = useMemo(() => {
     const domainsWithUnreadAnalytics = [];
@@ -26,13 +26,7 @@ export function DomainsPage(): ReactNode {
     ];
   }, [data?.body]);
 
-  if (isFetching) {
-    return <Loading />;
-  }
-
-  if (data?.status !== 200) {
-    return <div>Error</div>; // 🌠 generic error
-  }
+  if (isFetching) return <Loading />;
 
   return (
     <div className="flex flex-col gap-4 w-full">

@@ -16,14 +16,8 @@ export function AnalyticsPage(): ReactNode {
     }
   );
 
-  if (isFetching) {
-    return <Loading />
-  }
-
-  if (data?.status !== 200) {
-    return <div>Error</div>; // 🌠 generic error
-  }
-  console.log("🌠 data: ", data.body);
+  if (isFetching) return <Loading />;
+  console.log("🌠 data: ", data?.body.data);
 
   return (
     <div>

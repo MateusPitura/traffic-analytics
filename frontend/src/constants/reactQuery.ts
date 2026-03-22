@@ -2,7 +2,7 @@ import { QueryClient } from "@tanstack/react-query";
 
 declare module "@tanstack/react-query" {
   interface Register {
-    queryKey: ['domainsList' | 'analyticsList', ...ReadonlyArray<unknown>];
+    queryKey: ['domainsList' | 'analyticsList' | 'clientsList', ...ReadonlyArray<unknown>];
   }
 }
 
