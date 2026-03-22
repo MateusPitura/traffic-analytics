@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Header } from "../../components/Header";
+import { Loading } from "../../components/Loading";
 import { api } from "../../constants";
 import { analyticsRoute } from "../../routes";
 
@@ -16,7 +17,7 @@ export function AnalyticsPage(): ReactNode {
   );
 
   if (isFetching) {
-    return <div>Loading...</div>; // 🌠 generic loading
+    return <Loading />
   }
 
   if (data?.status !== 200) {

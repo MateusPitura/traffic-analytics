@@ -1,5 +1,6 @@
 import { useMemo, type ReactNode } from "react";
 import { Header } from "../../components/Header";
+import { Loading } from "../../components/Loading";
 import { api } from "../../constants";
 import { DomainContainer } from "./DomainContainer";
 
@@ -26,7 +27,7 @@ export function DomainsPage(): ReactNode {
   }, [data?.body]);
 
   if (isFetching) {
-    return <div>Loading...</div>; // 🌠 generic loading
+    return <Loading />;
   }
 
   if (data?.status !== 200) {
@@ -35,7 +36,7 @@ export function DomainsPage(): ReactNode {
 
   return (
     <div className="flex flex-col gap-4 w-full">
-     <Header title="Domains" />
+      <Header title="Domains" />
       <div className="flex flex-col gap-4 w-full">
         {sortedDomains.map(({ domain, hasUnreadAnalytics }) => (
           <DomainContainer
