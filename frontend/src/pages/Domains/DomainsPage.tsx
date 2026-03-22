@@ -1,4 +1,5 @@
 import { useMemo, type ReactNode } from "react";
+import { Header } from "../../components/Header";
 import { api } from "../../constants";
 import { DomainContainer } from "./DomainContainer";
 
@@ -34,7 +35,7 @@ export function DomainsPage(): ReactNode {
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <h2 className="text-on-surface text-4xl font-medium">Domains</h2>
+     <Header title="Domains" />
       <div className="flex flex-col gap-4 w-full">
         {sortedDomains.map(({ domain, hasUnreadAnalytics }) => (
           <DomainContainer

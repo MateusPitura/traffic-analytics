@@ -1,9 +1,10 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
+import { Header } from "../../components/Header";
 
 export function ClientsPage(): ReactNode {
   return (
     <div>
-        <h2 className='text-on-surface text-4xl font-medium'>Clients</h2>
+      <Header title="Clients" />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { initContract } from "@ts-rest/core";
 import { s } from "../schemas";
 import { Action } from "../types";
-import { errorResponse } from "./schemas.contract";
+import { errorResponse } from "./schemas";
 
 const c = initContract();
 
