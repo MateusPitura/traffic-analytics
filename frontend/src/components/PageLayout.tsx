@@ -1,15 +1,15 @@
-import { Link, Outlet } from "@tanstack/react-router";
+import { Outlet } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { SideBar } from "./SideBar";
 
 export function PageLayout(): ReactNode {
+
   return (
-    <div>
-      <div>
-        Page Side Bar
-        <Link to="/">Domains</Link>
-        <Link to="/">Clients</Link>
+    <div className="bg-surface h-screen flex w-full">
+      <SideBar/>
+      <div className="p-4 w-full">
+        <Outlet />
       </div>
-      <Outlet />
     </div>
   );
 }
