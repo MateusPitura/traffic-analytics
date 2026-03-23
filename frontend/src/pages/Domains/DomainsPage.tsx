@@ -1,7 +1,6 @@
 import { useMemo, type ReactNode } from "react";
 import { Header } from "../../components/Header";
 import { Loading } from "../../components/Loading";
-import { DataTableMany } from "../../components/ui/DataTableMany";
 import { api } from "../../constants";
 import { DomainContainer } from "./DomainContainer";
 
@@ -41,7 +40,6 @@ export function DomainsPage(): ReactNode {
           />
         ))}
       </div>
-      <DataTableMany/>
     </div>
   );
 }

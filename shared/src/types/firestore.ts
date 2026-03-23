@@ -3,7 +3,7 @@ import { Action } from ".";
 export interface ClientsCollection {
   name: string;
   color: string;
-  observations?: string;
+  observations: string;
   linkedCookieId: string[];
   linkedFingerprint: string[];
   linkedLocalStorageId: string[];

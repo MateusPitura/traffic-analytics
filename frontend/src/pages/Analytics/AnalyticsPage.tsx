@@ -1,27 +1,15 @@
 import type { ReactNode } from "react";
 import { Header } from "../../components/Header";
-import { Loading } from "../../components/Loading";
-import { api } from "../../constants";
 import { analyticsRoute } from "../../routes";
+import { AnalyticsTable } from "./AnalyticsTable";
 
 export function AnalyticsPage(): ReactNode {
   const { domain } = analyticsRoute.useParams();
 
-  const { data, isFetching } = api.analytics.list.useQuery(
-    ["analyticsList", domain],
-    {
-      query: {
-        domain,
-      },
-    }
-  );
-
-  if (isFetching) return <Loading />;
-  console.log("🌠 data: ", data?.body.data);
-
   return (
-    <div>
+    <div className="flex flex-col gap-4 min-w-0 w-full">
       <Header title={domain} />
+      <AnalyticsTable />
     </div>
   );
 }

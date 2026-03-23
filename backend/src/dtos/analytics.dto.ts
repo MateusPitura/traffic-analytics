@@ -1,7 +1,7 @@
 import { DomainsCollection } from "@shared/types/firestore";
 
 export interface ListAnalyticsOutDto {
-    data: DomainsCollection[]
+    payload: DomainsCollection[]
     nextCursor: number | null;
     hasMore: boolean;
 }

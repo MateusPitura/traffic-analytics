@@ -42,7 +42,7 @@ export const analyticsService = {
     const nextCursor = lastDoc ? lastDoc.get(LIST_QUERY_SORT) : null;
 
     return {
-      data: docs,
+      payload: docs,
       nextCursor,
       hasMore: docs.length === PAGE_SIZE,
     };

@@ -16,7 +16,7 @@ const action = s.enumeration([Action.VISIT, Action.CLICK, Action.OTHER]);
 const analyticsListResponse = s.object({
   nextCursor: s.number().nullable(),
   hasMore: s.boolean(),
-  data: s.array(
+  payload: s.array(
     s.object({
       clientId: s.string(),
       client: s.object({

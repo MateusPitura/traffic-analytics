@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { Header } from "../../components/Header";
 import { Button } from "../../components/ui/Button";
-import { Modal } from "../../components/ui/Modal";
+import { Dialog } from "../../components/ui/Dialog";
 import { useIsOpen } from "../../hooks/useIsOpen";
 import { ClientForm } from "./ClientForm";
 import { ClientsTable } from "./ClientsTable";
@@ -37,7 +37,7 @@ export function ClientsPage(): ReactNode {
           newClientModal.open();
         }}
       />
-      <Modal
+      <Dialog
         isOpen={newClientModal.isOpen}
         onClose={newClientModal.close}
         title={clientId ? "Edit Client" : "New Client"}
@@ -47,7 +47,7 @@ export function ClientsPage(): ReactNode {
           defaultValues={formDefaultValues}
           clientId={clientId}
         />
-      </Modal>
+      </Dialog>
     </div>
   );
 }

@@ -30,12 +30,6 @@ export function ClientsTable({ onEditClient }: ClientsTableProps) {
           />
         </Table.Body>
       </Table>
-      {/* 🌠 here don't need */}
-      <div className="min-h-12 px-2 border-t border-outline flex gap-4 text-on-surface items-center">
-        <span>Next</span>
-        <span>Previous</span>
-        <span>Showing 10 of 10</span>
-      </div>
     </div>
   );
 }
@@ -60,7 +54,7 @@ function TableBody({ data, isLoading, onEditClient }: TableBodyProps) {
   }
 
   return data.map((row) => (
-    <Table.Row key={row.name} variant={"body"}>
+    <Table.Row key={row.clientId} variant={"body"}>
       <Table.Cell className="max-w-fit">
         <div
           className="px-2 py-1 rounded-md font-medium"
