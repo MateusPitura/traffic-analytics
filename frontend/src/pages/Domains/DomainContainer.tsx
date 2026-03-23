@@ -14,7 +14,7 @@ export function DomainContainer({
 
   return (
     <div
-      className="border border-outline rounded-lg p-4 w-full flex gap-4 hover:bg-surface-bright cursor-pointer"
+      className="border border-outline rounded-lg p-4 w-full flex gap-4 hover:bg-surface-bright cursor-pointer items-center justify-center"
       onClick={() => {
         navigate({
           to: "analytics/$domain",

@@ -115,6 +115,8 @@ interface EmptyProps {
 function Empty({ children, className }: EmptyProps) {
   const { columnsCount } = useTableContext();
 
+  if(columnsCount <= 1) return null; 
+
   return (
     <Table.Row>
       <Table.Cell colSpan={columnsCount}>
