@@ -3,6 +3,8 @@ import { handleEvents } from "./handleEvents";
 import { sendToWorker } from "./sendToWorker";
 
 (async function () {
+  if(location?.href?.includes("localhost")) return;
+
   const visitData = await collectVisitData();
 
   sendToWorker(visitData);

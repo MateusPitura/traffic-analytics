@@ -44,7 +44,6 @@ export function AnalyticsTable() {
           <TableBody data={data?.body} isLoading={isFetching} />
         </Table.Body>
       </Table>
-      {/* 🌠 here don't need */}
       <div className="min-h-12 px-2 border-t border-outline flex gap-4 text-on-surface items-center">
         <span>Next</span>
         <span>Previous</span>
