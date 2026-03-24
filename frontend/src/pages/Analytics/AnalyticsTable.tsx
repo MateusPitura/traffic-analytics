@@ -1,5 +1,6 @@
 import { contract } from "@shared/contract";
 import { ClientInferResponseBody } from "@ts-rest/core";
+import { Button } from "../../components/ui/Button";
 import Spinner from "../../components/ui/Spinner";
 import { Table } from "../../components/ui/Table";
 import { Tooltip } from "../../components/ui/Tooltip";
@@ -39,6 +40,7 @@ export function AnalyticsTable() {
           <Table.Head>Cookie</Table.Head>
           <Table.Head>Location</Table.Head>
           <Table.Head>Bot</Table.Head>
+          <Table.Head />
         </Table.Header>
 
         <Table.Body>
@@ -118,7 +120,8 @@ function TableBody({ data, isLoading, domain }: TableBodyProps) {
       <Table.Cell>
         <Tooltip content={worker.asOrganization}>
           <div>
-            {worker.ip} {client.type !== "undefined" ? client.type : ""}{" "}
+            {worker.ip}{" "}
+            {client.networkType !== "undefined" ? client.networkType : ""}{" "}
             {client.saveData === "true" ? "Save Data" : ""}
           </div>
         </Tooltip>
@@ -158,6 +161,10 @@ function TableBody({ data, isLoading, domain }: TableBodyProps) {
         )}
       </Table.Cell>
       <Table.Cell>{`${worker.verifiedBotCategory}`}</Table.Cell>
+      <Table.Cell>
+        <Button variant={"tertiary"} label="Delete" />
+        <Button variant={"tertiary"} label="Link" />
+      </Table.Cell>
     </Table.Row>
   ));
 }

@@ -28,9 +28,9 @@ export interface DomainsCollection {
     outerWidth: string;
     outerHeight: string;
     dpr: string;
-    saveData: boolean;
-    type: string;
-    cookieEnabled: boolean;
+    saveData: string;
+    networkType: string;
+    cookieEnabled: string;
     fingerprint: string;
   };
   worker: {

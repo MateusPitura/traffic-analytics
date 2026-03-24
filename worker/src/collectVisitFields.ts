@@ -50,7 +50,7 @@ export function collectVisitFields({ request, body, cookieId }: CollectVisitFiel
 					outerHeight: s(body?.outerHeight),
 					dpr: s(body?.dpr),
 					saveData: s(body?.saveData),
-					type: s(body?.type),
+					networkType: s(body?.networkType),
 					cookieEnabled: s(body?.cookieEnabled),
 					fingerprint: s(body?.fingerprint),
 					action: s(body?.action),

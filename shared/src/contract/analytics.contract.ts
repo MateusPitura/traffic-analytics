@@ -35,7 +35,7 @@ const analyticsListResponse = s.object({
         outerHeight: s.string(),
         dpr: s.string(),
         saveData: s.string(),
-        type: s.string(),
+        networkType: s.string(),
         cookieEnabled: s.string(),
         fingerprint: s.string(),
       }),
