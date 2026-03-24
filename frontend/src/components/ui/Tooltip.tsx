@@ -12,7 +12,7 @@ export function Tooltip({
 }: TooltipProperties): ReactNode {
   return (
     <RadixTooltip.Provider>
-      <RadixTooltip.Root>
+      <RadixTooltip.Root delayDuration={0} disableHoverableContent>
         <RadixTooltip.Trigger asChild>
           {children}
         </RadixTooltip.Trigger>

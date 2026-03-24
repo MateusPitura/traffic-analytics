@@ -34,17 +34,17 @@ const analyticsListResponse = s.object({
         outerWidth: s.string(),
         outerHeight: s.string(),
         dpr: s.string(),
-        saveData: s.boolean(),
+        saveData: s.string(),
         type: s.string(),
-        cookieEnabled: s.boolean(),
+        cookieEnabled: s.string(),
         fingerprint: s.string(),
       }),
       worker: s.object({
         cookieId: s.string(),
         timestamp: s.string(),
-        url: s.string(),
-        referer: s.string(),
-        ua: s.string(),
+        url: s.string(), // 🌠 PENDING
+        referer: s.string(), // 🌠 PENDING
+        ua: s.string(), // 🌠 PENDING
         timezone: s.string(),
         language: s.string(),
         latitude: s.string(),
@@ -54,8 +54,8 @@ const analyticsListResponse = s.object({
         country: s.string(),
         ip: s.string(),
         asOrganization: s.string(),
-        score: s.string(),
-        verifiedBot: s.string(),
+        score: s.string(), // 🌠 PENDING
+        verifiedBot: s.string(), // 🌠 PENDING
       }),
       events: s.array(
         s.object({
