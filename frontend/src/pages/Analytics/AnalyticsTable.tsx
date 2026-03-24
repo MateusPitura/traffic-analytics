@@ -157,7 +157,7 @@ function TableBody({ data, isLoading, domain }: TableBodyProps) {
           worker.longitude
         )}
       </Table.Cell>
-      <Table.Cell>{`${worker.score} ${worker.verifiedBot}`}</Table.Cell>
+      <Table.Cell>{`${worker.verifiedBotCategory}`}</Table.Cell>
     </Table.Row>
   ));
 }

@@ -48,8 +48,7 @@ export interface DomainsCollection {
     country: string;
     ip: string;
     asOrganization: string;
-    score: string;
-    verifiedBot: string;
+    verifiedBotCategory: string;
   };
   events: {
     timestamp: string;

@@ -54,8 +54,7 @@ const analyticsListResponse = s.object({
         country: s.string(),
         ip: s.string(),
         asOrganization: s.string(),
-        score: s.string(), // 🌠 PENDING
-        verifiedBot: s.string(), // 🌠 PENDING
+        verifiedBotCategory: s.string(),
       }),
       events: s.array(
         s.object({

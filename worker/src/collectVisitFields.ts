@@ -8,13 +8,7 @@ interface CollectVisitFieldsProperties {
 	cookieId: string;
 }
 
-interface BotManagement {
-	score?: string;
-	verifiedBot?: string;
-}
-
 export function collectVisitFields({ request, body, cookieId }: CollectVisitFieldsProperties): Fields {
-	const botManagement = request.cf?.botManagement as BotManagement | undefined;
 	const cf = request.cf;
 	const headers = request.headers;
 
@@ -36,8 +30,7 @@ export function collectVisitFields({ request, body, cookieId }: CollectVisitFiel
 					country: s(cf?.country),
 					ip: s(headers.get('CF-Connecting-IP')),
 					asOrganization: s(cf?.asOrganization),
-					score: s(botManagement?.score),
-					verifiedBot: s(botManagement?.verifiedBot),
+					verifiedBotCategory: s(cf?.verifiedBotCategory),
 				},
 			},
 		},
