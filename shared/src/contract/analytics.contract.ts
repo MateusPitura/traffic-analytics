@@ -42,9 +42,9 @@ const analyticsListResponse = s.object({
       worker: s.object({
         cookieId: s.string(),
         timestamp: s.string(),
-        url: s.string(), // 🌠 PENDING
-        referer: s.string(), // 🌠 PENDING
-        ua: s.string(), // 🌠 PENDING
+        url: s.string(),
+        referer: s.string(),
+        ua: s.string(),
         timezone: s.string(),
         language: s.string(),
         latitude: s.string(),

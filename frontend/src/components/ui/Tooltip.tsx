@@ -2,20 +2,22 @@ import * as RadixTooltip from "@radix-ui/react-tooltip";
 import type { ReactNode } from "react";
 
 interface TooltipProperties {
-    children?: ReactNode;
-    content: ReactNode;
+  children?: ReactNode;
+  content: ReactNode;
+  disabled?: boolean;
 }
 
 export function Tooltip({
-    content,
-    children
+  content,
+  children,
+  disabled,
 }: TooltipProperties): ReactNode {
+  if (disabled) return children;
+
   return (
     <RadixTooltip.Provider>
       <RadixTooltip.Root delayDuration={0} disableHoverableContent>
-        <RadixTooltip.Trigger asChild>
-          {children}
-        </RadixTooltip.Trigger>
+        <RadixTooltip.Trigger asChild>{children}</RadixTooltip.Trigger>
         <RadixTooltip.Portal>
           <RadixTooltip.Content
             className="select-none rounded-md bg-surface-variant py-1 px-2 text-sm text-on-surface-variant shadow-lg z-20"

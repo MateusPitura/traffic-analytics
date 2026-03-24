@@ -112,3 +112,12 @@ export function formatLocation(
     </a>
   );
 }
+
+export function isGreaterThanOneMinute(date1: string, date2: string): boolean {
+  const diffInMs = Math.abs(
+    new Date(date1).getTime() - new Date(date2).getTime()
+  );
+  const oneMinuteInMs = 60 * 1000;
+
+  return diffInMs > oneMinuteInMs;
+}
