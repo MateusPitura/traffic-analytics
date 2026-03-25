@@ -76,7 +76,7 @@ function Cell({ children, className, colSpan = 1 }: CellProps): ReactNode {
   return (
     <td
       className={cn(
-        "whitespace-nowrap text-on-surface text-sm h-12 px-3 text-start",
+        "whitespace-nowrap text-on-surface text-sm h-12 px-2 text-start",
         className
       )}
       colSpan={colSpan}
@@ -101,10 +101,15 @@ const rowVariants = cva("", {
 interface RowProps extends VariantProps<typeof rowVariants> {
   children: ReactNode;
   className?: ClassValue;
+  onClick?: () => void;
 }
 
-function Row({ children, className, ...props }: RowProps): ReactNode {
-  return <tr className={cn(rowVariants(props), className)}>{children}</tr>;
+function Row({ children, className, onClick, ...props }: RowProps): ReactNode {
+  return (
+    <tr className={cn(rowVariants(props), className)} onClick={onClick}>
+      {children}
+    </tr>
+  );
 }
 
 interface EmptyProps {
@@ -115,7 +120,7 @@ interface EmptyProps {
 function Empty({ children, className }: EmptyProps) {
   const { columnsCount } = useTableContext();
 
-  if(columnsCount <= 1) return null; 
+  if (columnsCount <= 1) return null;
 
   return (
     <Table.Row>
@@ -128,6 +133,21 @@ function Empty({ children, className }: EmptyProps) {
   );
 }
 
+interface AccordionProps {
+  children: ReactNode;
+  className?: ClassValue;
+}
+
+function Accordion({ children, className }: AccordionProps): ReactNode {
+  const { columnsCount } = useTableContext();
+
+  return (
+    <Table.Row variant={"body"} className={className}>
+      <Table.Cell colSpan={columnsCount}>{children}</Table.Cell>
+    </Table.Row>
+  );
+}
+
 const Table = Object.assign(Container, {
   Header,
   Head,
@@ -135,6 +155,7 @@ const Table = Object.assign(Container, {
   Cell,
   Row,
   Empty,
+  Accordion,
 });
 
 export { Table };
