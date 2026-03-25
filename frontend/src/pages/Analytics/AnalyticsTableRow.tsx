@@ -1,10 +1,11 @@
 import { contract } from "@shared/contract";
 import { ClientInferResponses } from "@ts-rest/core";
-import { type ReactNode } from "react";
+import { useMemo, type ReactNode } from "react";
 import { Button } from "../../components/ui/Button";
 import { Table } from "../../components/ui/Table";
 import { useIsOpen } from "../../hooks/useIsOpen";
 import { cn } from "../../utils/cn";
+import { ClientTag } from "../Clients/ClientTag";
 import { AnalyticsTableCell } from "./AnalyticsTableCell";
 import {
   formatAbsoluteDate,
@@ -20,6 +21,7 @@ interface AnalyticsTableRowProperties {
     typeof contract.analytics.list,
     200
   >["body"]["payload"][number];
+  clientList: ClientInferResponses<typeof contract.clients.list, 200>["body"];
   domain: string;
   children?: ReactNode;
 }
@@ -28,9 +30,14 @@ export function AnalyticsTableRow({
   item,
   domain,
   children,
+  clientList,
 }: AnalyticsTableRowProperties): ReactNode {
-  const { worker, client, events } = item;
+  const { worker, client, events, clientId } = item;
   const accordion = useIsOpen();
+
+  const foundClient = useMemo(() => {
+    return clientList.find((c) => c.clientId === clientId);
+  }, [clientList, clientId]);
 
   return (
     <>
@@ -39,6 +46,13 @@ export function AnalyticsTableRow({
         variant={"body"}
         onClick={events ? accordion.toggle : undefined}
       >
+        <Table.Cell className="flex gap-1 items-center">
+          <span className="text-amber-400">{events?.length && "●"}</span>
+          <ClientTag
+            name={foundClient?.name || "Unknown"}
+            color={foundClient?.color || "#000000"}
+          />
+        </Table.Cell>
         <AnalyticsTableCell
           tooltip={
             <span>
@@ -57,7 +71,6 @@ export function AnalyticsTableRow({
                 "underline decoration-amber-400"
             )}
           >
-            <span className="text-amber-400">{events?.length && "● "}</span>
             {formatRelativeDate(client.timestamp)}
           </span>
         </AnalyticsTableCell>

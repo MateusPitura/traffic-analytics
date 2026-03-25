@@ -3,6 +3,7 @@ import { ClientInferResponseBody } from "@ts-rest/core";
 import type { ReactNode } from "react";
 import Spinner from "../../components/ui/Spinner";
 import { Table } from "../../components/ui/Table";
+import { api } from "../../constants";
 import { AnalyticsTableRow } from "./AnalyticsTableRow";
 import { EventContainer } from "./EventContainer";
 
@@ -17,7 +18,9 @@ export function AnalyticsTableBody({
   domain,
   isLoading,
 }: AnalyticsTableBodyProperties): ReactNode {
-  if (isLoading) {
+  const { data: clientListData, isFetching: isFetchingClientList } = api.clients.list.useQuery(["clientsList"]);
+
+  if (isLoading || isFetchingClientList) {
     return (
       <Table.Empty className="flex justify-center">
         <Spinner />
@@ -25,12 +28,16 @@ export function AnalyticsTableBody({
     );
   }
 
-  if (!data?.payload?.length) {
+  if (!data?.payload?.length || !clientListData?.body) {
     return <Table.Empty className="text-center">No items found</Table.Empty>;
   }
 
   return data.payload.map((item) => (
-    <AnalyticsTableRow item={item} domain={domain}>
+    <AnalyticsTableRow
+      item={item}
+      domain={domain}
+      clientList={clientListData?.body}
+    >
       <Table.Accordion>
         <div className="flex flex-col gap-2 py-2">
           {item.events?.toReversed().map((event) => (

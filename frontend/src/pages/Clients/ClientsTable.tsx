@@ -4,6 +4,7 @@ import { Button } from "../../components/ui/Button";
 import Spinner from "../../components/ui/Spinner";
 import { Table } from "../../components/ui/Table";
 import { api } from "../../constants";
+import { ClientTag } from "./ClientTag";
 import { ClientInputs } from "./types";
 
 interface ClientsTableProps {
@@ -56,14 +57,7 @@ function TableBody({ data, isLoading, onEditClient }: TableBodyProps) {
   return data.map((row) => (
     <Table.Row key={row.clientId} variant={"body"}>
       <Table.Cell className="max-w-fit">
-        <div
-          className="px-2 py-1 rounded-md font-medium"
-          style={{
-            backgroundColor: row.color,
-          }}
-        >
-          {row.name}
-        </div>
+        <ClientTag name={row.name} color={row.color} />
       </Table.Cell>
       <Table.Cell className="w-full">{row.observations}</Table.Cell>
       <Table.Cell>

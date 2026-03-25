@@ -19,6 +19,7 @@ export function AnalyticsTable() {
     <div className="flex min-h-0 flex-col h-full">
       <Table>
         <Table.Header>
+          <Table.Head>Client</Table.Head>
           <Table.Head>Date</Table.Head>
           <Table.Head>URL</Table.Head>
           <Table.Head>Referer</Table.Head>
