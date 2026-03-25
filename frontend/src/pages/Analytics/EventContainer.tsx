@@ -9,15 +9,17 @@ import {
 } from "./formatters";
 
 interface EventContainerProperties {
-  item: ClientInferResponses<
-    typeof contract.analytics.list,
-    200
-  >["body"]["payload"][number]["events"][number];
+  item: NonNullable<
+    ClientInferResponses<
+      typeof contract.analytics.list,
+      200
+    >["body"]["payload"][number]["events"]
+  >[number];
 }
 
 export function EventContainer({ item }: EventContainerProperties): ReactNode {
   return (
-    <div key={item.timestamp} className="flex gap-2 text-secondary">
+    <div className="flex gap-2 text-secondary">
       <span className="font-semibold">Date:</span>
       <Tooltip content={formatAbsoluteDate(item.timestamp)}>
         <span>{formatRelativeDate(item.timestamp)}</span>

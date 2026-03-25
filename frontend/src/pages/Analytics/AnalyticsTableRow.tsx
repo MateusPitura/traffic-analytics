@@ -24,7 +24,9 @@ interface AnalyticsTableRowProperties {
   >["body"]["payload"][number];
   clientList: ClientInferResponses<typeof contract.clients.list, 200>["body"];
   domain: string;
-  children?: ReactNode;
+  children: ReactNode;
+  onClickLink: () => void;
+  onClickDelete: () => void;
 }
 
 export function AnalyticsTableRow({
@@ -32,8 +34,10 @@ export function AnalyticsTableRow({
   domain,
   children,
   clientList,
+  onClickDelete,
+  onClickLink,
 }: AnalyticsTableRowProperties): ReactNode {
-  const { worker, client, events, clientId } = item;
+  const { worker, client, events, clientId, analyticId } = item;
   const accordion = useIsOpen();
 
   const foundClient = useMemo(() => {
@@ -43,7 +47,7 @@ export function AnalyticsTableRow({
   return (
     <>
       <Table.Row
-        key={client.sessionId}
+        key={analyticId}
         variant={"body"}
         onClick={events ? accordion.toggle : undefined}
       >
@@ -177,8 +181,16 @@ export function AnalyticsTableRow({
         </Table.Cell>
         <Table.Cell>{`${worker.verifiedBotCategory}`}</Table.Cell>
         <Table.Cell>
-          <Button variant={"tertiary"} label={<Delete/>} />
-          <Button variant={"tertiary"} label={<ArrowForward/>} />
+          <Button
+            variant={"tertiary"}
+            label={<Delete />}
+            onClick={onClickDelete}
+          />
+          {!item.clientId && <Button
+            variant={"tertiary"}
+            label={<ArrowForward />}
+            onClick={onClickLink}
+          />}
         </Table.Cell>
       </Table.Row>
       {accordion.isOpen && children}

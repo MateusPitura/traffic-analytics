@@ -18,6 +18,7 @@ const analyticsListResponse = s.object({
   hasMore: s.boolean(),
   payload: s.array(
     s.object({
+      analyticId: s.string(),
       clientId: s.string(),
       client: s.object({
         timestamp: s.string(),
@@ -64,7 +65,7 @@ const analyticsListResponse = s.object({
           url: s.string(),
           metadata: s.string(),
         })
-      ),
+      ).optional(),
     })
   ),
 });

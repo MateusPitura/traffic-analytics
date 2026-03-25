@@ -20,7 +20,7 @@ export function Tooltip({
         <RadixTooltip.Trigger asChild>{children}</RadixTooltip.Trigger>
         <RadixTooltip.Portal>
           <RadixTooltip.Content
-            className="select-none rounded-md bg-surface-variant py-1 px-2 text-sm text-on-surface-variant shadow-lg z-20"
+            className="select-none rounded-md bg-surface-variant py-1 px-2 text-sm text-on-surface-variant shadow-lg z-40"
             sideOffset={5}
             side="bottom"
           >
