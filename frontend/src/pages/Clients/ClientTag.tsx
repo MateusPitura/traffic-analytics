@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 
 interface ClientTagProperties {
-  name: string;
-  color: string;
+  name: string | undefined;
+  color: string | undefined;
 }
 
 export function ClientTag({ color, name }: ClientTagProperties): ReactNode {

@@ -48,10 +48,7 @@ export function AnalyticsTableRow({
       >
         <Table.Cell className="flex gap-1 items-center">
           <span className="text-amber-400">{events?.length && "●"}</span>
-          <ClientTag
-            name={foundClient?.name || "Unknown"}
-            color={foundClient?.color || "#000000"}
-          />
+          <ClientTag name={foundClient?.name} color={foundClient?.color} />
         </Table.Cell>
         <AnalyticsTableCell
           tooltip={
