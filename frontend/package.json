@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:icons": "npx @svgr/cli --template svgr-template.cjs --typescript --out-dir src/icons src/assets/svgs"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@svgr/cli": "^8.1.0",
     "@types/node": "^24.12.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { ReactNode } from "react";
 import { cn } from "../../utils/cn";
 
 const buttonVariants = cva(
@@ -28,7 +29,7 @@ const buttonVariants = cva(
 
 interface ButtonProps extends VariantProps<typeof buttonVariants> {
   className?: string;
-  label: string;
+  label: ReactNode;
   onClick?: () => void;
   type?: "button" | "submit";
 }

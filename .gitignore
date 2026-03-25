@@ -4,3 +4,4 @@ dist/
 .dev.vars
 !script/dist/
 serviceAccountKey.json
+frontend/src/icons/

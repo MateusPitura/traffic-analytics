@@ -1,15 +1,7 @@
 import Bowser from "bowser";
 import { ReactNode } from "react";
 import ReactCountryFlag from "react-country-flag";
-import {
-  Android,
-  Apple,
-  Chrome,
-  Edge,
-  Firefox,
-  Linux,
-  Windows,
-} from "../../constants/svgs";
+import { Android, Apple, Chrome, Edge, Firefox, Linux, Windows } from "../../icons";
 
 export function formatUrl(url: string): string {
   return url.replace(/^(https?:\/\/)?(www\.)?/, "");

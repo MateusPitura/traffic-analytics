@@ -4,6 +4,7 @@ import { useMemo, type ReactNode } from "react";
 import { Button } from "../../components/ui/Button";
 import { Table } from "../../components/ui/Table";
 import { useIsOpen } from "../../hooks/useIsOpen";
+import { ArrowForward, Delete } from "../../icons";
 import { cn } from "../../utils/cn";
 import { ClientTag } from "../Clients/ClientTag";
 import { AnalyticsTableCell } from "./AnalyticsTableCell";
@@ -176,8 +177,8 @@ export function AnalyticsTableRow({
         </Table.Cell>
         <Table.Cell>{`${worker.verifiedBotCategory}`}</Table.Cell>
         <Table.Cell>
-          <Button variant={"tertiary"} label="Delete" />
-          <Button variant={"tertiary"} label="Link" />
+          <Button variant={"tertiary"} label={<Delete/>} />
+          <Button variant={"tertiary"} label={<ArrowForward/>} />
         </Table.Cell>
       </Table.Row>
       {accordion.isOpen && children}

@@ -4,6 +4,7 @@ import { Button } from "../../components/ui/Button";
 import Spinner from "../../components/ui/Spinner";
 import { Table } from "../../components/ui/Table";
 import { api } from "../../constants";
+import { Arrow, Edit } from "../../icons";
 import { ClientTag } from "./ClientTag";
 import { ClientInputs } from "./types";
 
@@ -63,7 +64,7 @@ function TableBody({ data, isLoading, onEditClient }: TableBodyProps) {
       <Table.Cell>
         <Button
           variant={"tertiary"}
-          label="Edit"
+          label={<Edit />}
           onClick={() => {
             onEditClient(row.clientId, {
               fullName: row.name,
@@ -72,7 +73,7 @@ function TableBody({ data, isLoading, onEditClient }: TableBodyProps) {
             });
           }}
         />
-        <Button variant={"tertiary"} label="View" />
+        <Button variant={"tertiary"} label={<Arrow />} />
       </Table.Cell>
     </Table.Row>
   ));
