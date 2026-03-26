@@ -44,8 +44,7 @@ export function AnalyticsTable() {
       <Table.Container>
         <Table className={[!hasData && "pb-0"]}>
           <Table.Header>
-            {/* 🌠 remove hasData */}
-            <Table.Head sticky={hasData ? "left" : undefined}>
+            <Table.Head sticky={"left"}>
               {hasData && (
                 <Checkbox
                   isChecked={allSelected}
@@ -68,8 +67,7 @@ export function AnalyticsTable() {
             <Table.Head>Cookie</Table.Head>
             <Table.Head>Location</Table.Head>
             <Table.Head>Bot</Table.Head>
-            {/* 🌠 remove hasData */}
-            <Table.Head sticky={hasData ? "right" : undefined} />
+            <Table.Head sticky={"right"} />
           </Table.Header>
 
           <Table.Body>

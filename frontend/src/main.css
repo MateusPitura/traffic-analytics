@@ -77,3 +77,19 @@
   background: transparent;
 }
 /* END SCROLL BAR */
+
+.table-sticky-border {
+  container-type: scroll-state;
+}
+
+@container scroll-state(stuck: left) {
+  .table-sticky-border::before {
+    width: 1px;
+  }
+}
+
+@container scroll-state(stuck: right) {
+  .table-sticky-border::before {
+    width: 1px;
+  }
+}

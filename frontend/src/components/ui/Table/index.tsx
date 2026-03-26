@@ -5,11 +5,9 @@ import {
   Viewport,
 } from "@radix-ui/react-scroll-area";
 import { ClassValue } from "clsx";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { ChildrenProps } from "../../../types";
 import { cn } from "../../../utils/cn";
-import { TableProvider } from "./TableProvider";
-import useTableContext from "./useTableContext";
 
 function Container({ children }: ChildrenProps): ReactNode {
   return (
@@ -39,7 +37,6 @@ interface RootProps {
 
 function Root({ children, className }: RootProps): ReactNode {
   return (
-    <TableProvider>
       <Viewport
         className={cn("w-full h-full *:h-full pb-[47px]", className)}
         id="table-container"
@@ -48,20 +45,10 @@ function Root({ children, className }: RootProps): ReactNode {
           {children}
         </table>
       </Viewport>
-    </TableProvider>
   );
 }
 
 function Header({ children }: ChildrenProps): ReactNode {
-  const { setHasHorizontalScroll } = useTableContext();
-
-  useEffect(() => {
-    const element = document.getElementById("table-container");
-    if (element) {
-      setHasHorizontalScroll(element.scrollWidth > element.clientWidth);
-    }
-  }, [children, setHasHorizontalScroll]);
-
   return (
     <thead className="sticky top-0 z-20 bg-surface">
       <Table.Row className="border-none">{children}</Table.Row>
@@ -96,18 +83,15 @@ interface HeadProps {
 }
 
 function Head({ children, className, sticky }: HeadProps): ReactNode {
-  const { hasHorizontalScroll } = useTableContext();
-
   return (
     <th
       className={cn(
         "text-on-surface font-semibold text-sm h-12 px-2 text-start whitespace-nowrap",
         "after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-px after:bg-outline",
         !!sticky &&
-          hasHorizontalScroll &&
-          "sticky z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:right-0 before:w-px before:bg-outline",
-        sticky === "left" && hasHorizontalScroll && "before:right-0 left-0",
-        sticky === "right" && hasHorizontalScroll && "before:left-0 right-0",
+          "sticky z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:right-0 before:w-0 before:bg-outline table-sticky-border",
+        sticky === "left" && "before:right-0 left-0",
+        sticky === "right" && "before:left-0 right-0",
         className
       )}
     >
@@ -123,17 +107,14 @@ interface CellProps {
 }
 
 function Cell({ children, className, sticky }: CellProps): ReactNode {
-  const { hasHorizontalScroll } = useTableContext();
-
   return (
     <td
       className={cn(
         "whitespace-nowrap text-on-surface text-sm px-2 text-start group-hover:bg-surface-bright",
         !!sticky &&
-          hasHorizontalScroll &&
-          "sticky z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:w-px before:bg-outline",
-        sticky === "left" && hasHorizontalScroll && "before:right-0 left-0",
-        sticky === "right" && hasHorizontalScroll && "before:left-0 right-0",
+          "sticky z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:bg-outline table-sticky-border",
+        sticky === "left" && "before:right-0 left-0",
+        sticky === "right" && "before:left-0 right-0",
         className
       )}
     >
