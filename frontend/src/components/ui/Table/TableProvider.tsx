@@ -6,17 +6,14 @@ interface TableProviderProps {
 }
 
 function TableProvider({ children }: TableProviderProps) {
-  const [columnsCount, setColumnCount] = useState(0);
   const [hasHorizontalScroll, setHasHorizontalScroll] = useState(false);
 
   const values = useMemo(() => {
     return {
-      columnsCount,
-      setColumnCount,
       hasHorizontalScroll,
       setHasHorizontalScroll,
     };
-  }, [columnsCount, hasHorizontalScroll]);
+  }, [hasHorizontalScroll]);
 
   return (
     <TableContext.Provider value={values}>{children}</TableContext.Provider>

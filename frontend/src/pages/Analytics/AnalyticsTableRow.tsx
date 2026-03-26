@@ -55,7 +55,6 @@ export function AnalyticsTableRow({
     <>
       <Table.Row
         key={analyticId}
-        variant={"body"}
         onClick={events ? accordion.toggle : undefined}
       >
         <Table.Cell sticky="left">
@@ -64,8 +63,8 @@ export function AnalyticsTableRow({
             onClick={() => toggleRow(analyticId)}
           />
         </Table.Cell>
-        <Table.Cell className="flex gap-1 items-center">
-          <span className="text-amber-400">{events?.length && "●"}</span>
+        <Table.Cell>
+          <span className="text-amber-400 mr-1">{events?.length && "●"}</span>
           <ClientTag name={foundClient?.name} color={foundClient?.color} />
         </Table.Cell>
         <AnalyticsTableCell
@@ -192,7 +191,9 @@ export function AnalyticsTableRow({
             worker.longitude
           )}
         </Table.Cell>
-        <Table.Cell>{`${worker.verifiedBotCategory}`}</Table.Cell>
+        <Table.Cell>
+          <span className="line-clamp-2 whitespace-normal">{`${worker.verifiedBotCategory}`}</span>
+        </Table.Cell>
         <Table.Cell sticky="right">
           <div className="flex" onClick={(e) => e.stopPropagation()}>
             <Button

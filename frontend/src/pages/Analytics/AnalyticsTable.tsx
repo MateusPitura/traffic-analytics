@@ -37,16 +37,20 @@ export function AnalyticsTable() {
     payload: analyticsData?.body.payload.map((item) => item.analyticId) || [],
   });
 
+  const hasData = !!analyticsData?.body.payload.length;
+
   return (
     <div className="flex min-h-0 flex-col h-full">
       <Table>
         <Table.Header>
-          <Table.Head sticky="left">
-            <Checkbox
-              isChecked={allSelected}
-              onClick={toggleAll}
-              isIndeterminate={isIndeterminate}
-            />
+          <Table.Head sticky={hasData ? "left" : undefined}>
+            {hasData && (
+              <Checkbox
+                isChecked={allSelected}
+                onClick={toggleAll}
+                isIndeterminate={isIndeterminate}
+              />
+            )}
           </Table.Head>
           <Table.Head>Client</Table.Head>
           <Table.Head>Date</Table.Head>
@@ -62,7 +66,7 @@ export function AnalyticsTable() {
           <Table.Head>Cookie</Table.Head>
           <Table.Head>Location</Table.Head>
           <Table.Head>Bot</Table.Head>
-          <Table.Head sticky="right" />
+          <Table.Head sticky={hasData ? "right" : undefined} />
         </Table.Header>
 
         <Table.Body>
@@ -75,8 +79,27 @@ export function AnalyticsTable() {
             clearSelection={clearSelection}
           />
         </Table.Body>
+
+        <Table.Footer>
+          <Table.Foot sticky="left" />
+          <Table.Foot />
+          <Table.Foot />
+          <Table.Foot />
+          <Table.Foot />
+          <Table.Foot />
+          <Table.Foot />
+          <Table.Foot />
+          <Table.Foot />
+          <Table.Foot />
+          <Table.Foot />
+          <Table.Foot>Count 10</Table.Foot>
+          <Table.Foot />
+          <Table.Foot />
+          <Table.Foot />
+          <Table.Foot sticky="right" />
+        </Table.Footer>
       </Table>
-      <div className="min-h-12 px-2 border-t border-outline flex gap-4 text-on-surface items-center">
+      <Table.Bottom>
         {cursorStack.length > 0 && (
           <Button
             variant="tertiary"
@@ -95,7 +118,7 @@ export function AnalyticsTable() {
             }}
           />
         )}
-      </div>
+      </Table.Bottom>
     </div>
   );
 }

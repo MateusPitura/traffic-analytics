@@ -62,7 +62,7 @@ function TableBody({ data, isLoading, onEditClient }: TableBodyProps) {
   }
 
   return data.map((row) => (
-    <Table.Row key={row.clientId} variant={"body"}>
+    <Table.Row key={row.clientId}>
       <Table.Cell className="max-w-fit">
         <ClientTag name={row.name} color={row.color} />
       </Table.Cell>

@@ -1,45 +1,77 @@
-import { cva, VariantProps } from "class-variance-authority";
+import {
+  ScrollArea,
+  Scrollbar,
+  Thumb,
+  Viewport,
+} from "@radix-ui/react-scroll-area";
 import { ClassValue } from "clsx";
-import { Children, useEffect, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+import { ChildrenProps } from "../../../types";
 import { cn } from "../../../utils/cn";
 import { TableProvider } from "./TableProvider";
 import useTableContext from "./useTableContext";
 
-interface ContainerProps {
-  children: ReactNode;
-}
-
-function Container({ children }: ContainerProps): ReactNode {
+function Container({ children }: ChildrenProps): ReactNode {
   return (
     <TableProvider>
-      <div className="overflow-auto w-full h-full" id="table-container">
-        <table className="w-full has-[&_[data-empty=true]]:h-full">
-          {children}
-        </table>
-      </div>
+      <ScrollArea className="border border-outline overflow-hidden h-full rounded-lg">
+        <Viewport className="w-full h-full *:h-full" id="table-container">
+          <table className="w-full has-[&_[data-empty=true]]:h-full">
+            {children}
+          </table>
+        </Viewport>
+        <Scrollbar
+          orientation="vertical"
+          className="right-0 top-0 bottom-0 w-0.5 bg-transparent z-10 pt-12 pb-12"
+        >
+          <Thumb className="bg-neutral-500 rounded-full w-full" />
+        </Scrollbar>
+
+        <Scrollbar
+          orientation="horizontal"
+          className="bottom-0 left-0 right-0 h-0.5 bg-transparent z-20"
+        >
+          <Thumb className="bg-neutral-500 rounded-full h-full!" />
+        </Scrollbar>
+      </ScrollArea>
     </TableProvider>
   );
 }
 
-interface HeaderProps {
-  children: ReactNode;
-}
-
-function Header({ children }: HeaderProps): ReactNode {
-  const { setColumnCount, setHasHorizontalScroll } = useTableContext();
+function Header({ children }: ChildrenProps): ReactNode {
+  const { setHasHorizontalScroll } = useTableContext();
 
   useEffect(() => {
-    setColumnCount(Children.count(children));
     const element = document.getElementById("table-container");
     if (element) {
       setHasHorizontalScroll(element.scrollWidth > element.clientWidth);
     }
-  }, [children, setColumnCount, setHasHorizontalScroll]);
+  }, [children, setHasHorizontalScroll]);
 
   return (
     <thead className="sticky top-0 z-20 bg-surface">
-      <Table.Row>{children}</Table.Row>
+      <Table.Row className="border-none">{children}</Table.Row>
     </thead>
+  );
+}
+
+function Body({ children }: ChildrenProps): ReactNode {
+  return <tbody className="min-h-full">{children}</tbody>;
+}
+
+function Footer({ children }: ChildrenProps): ReactNode {
+  return (
+    <tfoot className="sticky bottom-0 z-20 bg-surface">
+      <Table.Row>{children}</Table.Row>
+    </tfoot>
+  );
+}
+
+function Bottom({ children }: ChildrenProps): ReactNode {
+  return (
+    <div className="min-h-12 px-2 flex gap-4 text-on-surface items-center">
+      {children}
+    </div>
   );
 }
 
@@ -57,12 +89,11 @@ function Head({ children, className, sticky }: HeadProps): ReactNode {
       className={cn(
         "text-on-surface font-semibold text-sm h-12 px-2 text-start whitespace-nowrap",
         "after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-px after:bg-outline",
-        sticky === "left" &&
+        !!sticky &&
           hasHorizontalScroll &&
-          "sticky left-0 z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:right-0 before:w-px before:bg-outline",
-        sticky === "right" &&
-          hasHorizontalScroll &&
-          "sticky right-0 z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:w-px before:bg-outline",
+          "sticky z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:right-0 before:w-px before:bg-outline",
+        sticky === "left" && hasHorizontalScroll && "before:right-0 left-0",
+        sticky === "right" && hasHorizontalScroll && "before:left-0 right-0",
         className
       )}
     >
@@ -71,69 +102,63 @@ function Head({ children, className, sticky }: HeadProps): ReactNode {
   );
 }
 
-interface BodyProps {
-  children: ReactNode;
-}
-
-function Body({ children }: BodyProps): ReactNode {
-  return <tbody className="min-h-full">{children}</tbody>;
-}
-
 interface CellProps {
-  children: ReactNode;
+  children?: ReactNode;
   className?: ClassValue;
-  colSpan?: number;
   sticky?: "left" | "right";
 }
 
-function Cell({
-  children,
-  className,
-  colSpan = 1,
-  sticky,
-}: CellProps): ReactNode {
+function Cell({ children, className, sticky }: CellProps): ReactNode {
   const { hasHorizontalScroll } = useTableContext();
 
   return (
     <td
       className={cn(
-        "whitespace-nowrap text-on-surface text-sm h-12 px-2 text-start group-hover:bg-surface-bright",
-        sticky === "left" &&
+        "whitespace-nowrap text-on-surface text-sm px-2 text-start group-hover:bg-surface-bright",
+        !!sticky &&
           hasHorizontalScroll &&
-          "sticky left-0 z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:right-0 before:w-px before:bg-outline",
-        sticky === "right" &&
-          hasHorizontalScroll &&
-          "sticky right-0 z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:w-px before:bg-outline",
+          "sticky z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:w-px before:bg-outline",
+        sticky === "left" && hasHorizontalScroll && "before:right-0 left-0",
+        sticky === "right" && hasHorizontalScroll && "before:left-0 right-0",
         className
       )}
-      colSpan={colSpan}
     >
-      {children}
+      <div className={cn("h-12 max-h-12 flex items-center")}>{children}</div>
     </td>
   );
 }
 
-const rowVariants = cva("", {
-  variants: {
-    variant: {
-      default: "",
-      body: "border-b border-outline last:border-none group",
-    },
-  },
-  defaultVariants: {
-    variant: "default",
-  },
-});
+interface FootProps {
+  children?: ReactNode;
+  sticky?: "left" | "right";
+}
 
-interface RowProps extends VariantProps<typeof rowVariants> {
+function Foot({ children, sticky }: FootProps): ReactNode {
+  return (
+    <Cell
+      className="after:content-[''] after:absolute after:left-0 after:right-0 after:top-0 after:h-px after:bg-outline"
+      sticky={sticky}
+    >
+      {children}
+    </Cell>
+  );
+}
+
+interface RowProps {
   children: ReactNode;
   className?: ClassValue;
   onClick?: () => void;
 }
 
-function Row({ children, className, onClick, ...props }: RowProps): ReactNode {
+function Row({ children, className, onClick }: RowProps): ReactNode {
   return (
-    <tr className={cn(rowVariants(props), className)} onClick={onClick}>
+    <tr
+      className={cn(
+        "border-b border-outline last:border-none group bg-surface",
+        className
+      )}
+      onClick={onClick}
+    >
       {children}
     </tr>
   );
@@ -145,17 +170,13 @@ interface EmptyProps {
 }
 
 function Empty({ children, className }: EmptyProps) {
-  const { columnsCount } = useTableContext();
-
-  if (columnsCount <= 1) return null;
-
   return (
     <Table.Row>
-      <Table.Cell colSpan={columnsCount}>
+      <td colSpan={100}>
         <div data-empty className={className}>
           {children}
         </div>
-      </Table.Cell>
+      </td>
     </Table.Row>
   );
 }
@@ -166,20 +187,26 @@ interface AccordionProps {
 }
 
 function Accordion({ children, className }: AccordionProps): ReactNode {
-  const { columnsCount } = useTableContext();
-
   return (
-    <Table.Row variant={"body"} className={className}>
-      <Table.Cell colSpan={columnsCount}>{children}</Table.Cell>
+    <Table.Row>
+      <td
+        colSpan={100}
+        className={cn("text-sm text-on-surface px-2", className)}
+      >
+        {children}
+      </td>
     </Table.Row>
   );
 }
 
 const Table = Object.assign(Container, {
   Header,
-  Head,
   Body,
+  Footer,
+  Bottom,
+  Head,
   Cell,
+  Foot,
   Row,
   Empty,
   Accordion,

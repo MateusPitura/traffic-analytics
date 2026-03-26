@@ -35,7 +35,7 @@ export function AnalyticsTableBody({
   isLoading,
   selected,
   toggleRow,
-  clearSelection
+  clearSelection,
 }: AnalyticsTableBodyProperties): ReactNode {
   const { data: clientListData, isFetching: isFetchingClientList } =
     api.clients.list.useQuery(["clientsList"]);
@@ -55,23 +55,30 @@ export function AnalyticsTableBody({
       },
     });
 
-  const { mutate: deleteAnalytics, isPending: isDeletingAnalytics } = api.analytics.delete.useMutation({
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["analyticsList"] });
-      clearSelection()
-    },
-  });
+  const { mutate: deleteAnalytics, isPending: isDeletingAnalytics } =
+    api.analytics.delete.useMutation({
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["analyticsList"] });
+        clearSelection();
+      },
+    });
 
   if (isLoading || isFetchingClientList) {
     return (
-      <Table.Empty className="flex justify-center">
+      <Table.Empty className="flex items-center justify-center">
         <Spinner />
       </Table.Empty>
     );
   }
 
   if (!data?.payload?.length || !clientListData?.body) {
-    return <Table.Empty className="text-center">No items found</Table.Empty>;
+    return (
+      <Table.Empty
+      className="flex items-center justify-center text-on-surface"
+      >
+        No items found
+      </Table.Empty>
+    );
   }
 
   return (
