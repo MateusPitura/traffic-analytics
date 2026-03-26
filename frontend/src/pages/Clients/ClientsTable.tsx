@@ -19,21 +19,23 @@ export function ClientsTable({ onEditClient }: ClientsTableProps) {
 
   return (
     <div className="flex min-h-0 flex-col h-full">
-      <Table>
-        <Table.Header>
-          <Table.Head>Name</Table.Head>
-          <Table.Head>Observations</Table.Head>
-          <Table.Head />
-        </Table.Header>
+      <Table.Container>
+        <Table>
+          <Table.Header>
+            <Table.Head>Name</Table.Head>
+            <Table.Head>Observations</Table.Head>
+            <Table.Head />
+          </Table.Header>
 
-        <Table.Body>
-          <TableBody
-            data={data?.body || []}
-            isLoading={isFetching}
-            onEditClient={onEditClient}
-          />
-        </Table.Body>
-      </Table>
+          <Table.Body>
+            <TableBody
+              data={data?.body || []}
+              isLoading={isFetching}
+              onEditClient={onEditClient}
+            />
+          </Table.Body>
+        </Table>
+      </Table.Container>
     </div>
   );
 }
