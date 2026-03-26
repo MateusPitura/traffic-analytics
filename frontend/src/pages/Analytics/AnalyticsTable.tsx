@@ -5,8 +5,8 @@ import { useTableCheckbox } from "../../components/ui/Table/useTableCheckbox";
 import { api } from "../../constants";
 import { analyticsRoute } from "../../routes";
 import { AnalyticsTableBody } from "./AnalyticsTableBody";
+import { useFilters } from "./useFilters";
 import { usePagination } from "./usePagination";
-import { useFilters } from "./useSearchParams";
 
 export function AnalyticsTable() {
   const { domain } = analyticsRoute.useParams();
@@ -95,7 +95,6 @@ export function AnalyticsTable() {
             }}
           />
         )}
-        <span>Showing 10 of 10</span>
       </div>
     </div>
   );

@@ -46,10 +46,10 @@ export function AnalyticsTableBody({
       isOpen: false,
     });
 
-  const { mutate: linkToClient, isPending: isLinkingToClient } =
+  const { mutateAsync: linkToClient, isPending: isLinkingToClient } =
     api.analytics.linkToClient.useMutation({
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["analyticsList", domain] });
+        queryClient.invalidateQueries({ queryKey: ["analyticsList"] });
         queryClient.invalidateQueries({ queryKey: ["clientsList"] });
         setLinkClientDialog({ analyticItem: null, isOpen: false });
       },
@@ -57,7 +57,7 @@ export function AnalyticsTableBody({
 
   const { mutate: deleteAnalytics, isPending: isDeletingAnalytics } = api.analytics.delete.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["analyticsList", domain] });
+      queryClient.invalidateQueries({ queryKey: ["analyticsList"] });
       clearSelection()
     },
   });
@@ -86,8 +86,8 @@ export function AnalyticsTableBody({
         <LinkClientForm
           clientList={clientListData.body}
           analyticItem={linkClientDialog.analyticItem!}
-          onClickLink={(clientId) =>
-            linkToClient({
+          onClickLink={async (clientId) =>
+            await linkToClient({
               body: {
                 analyticId: linkClientDialog.analyticItem?.analyticId as string,
                 clientId,
