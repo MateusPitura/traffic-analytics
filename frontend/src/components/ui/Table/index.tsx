@@ -12,7 +12,7 @@ interface ContainerProps {
 function Container({ children }: ContainerProps): ReactNode {
   return (
     <TableProvider>
-      <div className="overflow-auto w-full h-full">
+      <div className="overflow-auto w-full h-full" id="table-container">
         <table className="w-full has-[&_[data-empty=true]]:h-full">
           {children}
         </table>
@@ -26,14 +26,18 @@ interface HeaderProps {
 }
 
 function Header({ children }: HeaderProps): ReactNode {
-  const { setColumnCount } = useTableContext();
+  const { setColumnCount, setHasHorizontalScroll } = useTableContext();
 
   useEffect(() => {
     setColumnCount(Children.count(children));
-  }, [children, setColumnCount]);
+    const element = document.getElementById("table-container");
+    if (element) {
+      setHasHorizontalScroll(element.scrollWidth > element.clientWidth);
+    }
+  }, [children, setColumnCount, setHasHorizontalScroll]);
 
   return (
-    <thead className="sticky top-0 z-10 bg-surface">
+    <thead className="sticky top-0 z-20 bg-surface">
       <Table.Row>{children}</Table.Row>
     </thead>
   );
@@ -42,14 +46,23 @@ function Header({ children }: HeaderProps): ReactNode {
 interface HeadProps {
   children?: ReactNode;
   className?: ClassValue;
+  sticky?: "left" | "right";
 }
 
-function Head({ children, className }: HeadProps): ReactNode {
+function Head({ children, className, sticky }: HeadProps): ReactNode {
+  const { hasHorizontalScroll } = useTableContext();
+
   return (
     <th
       className={cn(
-        "text-on-surface font-semibold text-sm h-12 px-3 text-start whitespace-nowrap",
+        "text-on-surface font-semibold text-sm h-12 px-2 text-start whitespace-nowrap",
         "after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-px after:bg-outline",
+        sticky === "left" &&
+          hasHorizontalScroll &&
+          "sticky left-0 z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:right-0 before:w-px before:bg-outline",
+        sticky === "right" &&
+          hasHorizontalScroll &&
+          "sticky right-0 z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:w-px before:bg-outline",
         className
       )}
     >
@@ -70,13 +83,27 @@ interface CellProps {
   children: ReactNode;
   className?: ClassValue;
   colSpan?: number;
+  sticky?: "left" | "right";
 }
 
-function Cell({ children, className, colSpan = 1 }: CellProps): ReactNode {
+function Cell({
+  children,
+  className,
+  colSpan = 1,
+  sticky,
+}: CellProps): ReactNode {
+  const { hasHorizontalScroll } = useTableContext();
+
   return (
     <td
       className={cn(
-        "whitespace-nowrap text-on-surface text-sm h-12 px-2 text-start",
+        "whitespace-nowrap text-on-surface text-sm h-12 px-2 text-start group-hover:bg-surface-bright",
+        sticky === "left" &&
+          hasHorizontalScroll &&
+          "sticky left-0 z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:right-0 before:w-px before:bg-outline",
+        sticky === "right" &&
+          hasHorizontalScroll &&
+          "sticky right-0 z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:w-px before:bg-outline",
         className
       )}
       colSpan={colSpan}
@@ -90,7 +117,7 @@ const rowVariants = cva("", {
   variants: {
     variant: {
       default: "",
-      body: "hover:bg-surface-bright border-b border-outline last:border-none",
+      body: "border-b border-outline last:border-none group",
     },
   },
   defaultVariants: {

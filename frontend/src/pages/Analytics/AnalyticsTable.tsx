@@ -1,4 +1,6 @@
+import { Checkbox } from "../../components/ui/Form/Checkbox";
 import { Table } from "../../components/ui/Table";
+import { useTableCheckbox } from "../../components/ui/Table/useTableCheckbox";
 import { api } from "../../constants";
 import { analyticsRoute } from "../../routes";
 import { AnalyticsTableBody } from "./AnalyticsTableBody";
@@ -6,19 +8,35 @@ import { AnalyticsTableBody } from "./AnalyticsTableBody";
 export function AnalyticsTable() {
   const { domain } = analyticsRoute.useParams();
 
-  const { data, isFetching } = api.analytics.list.useQuery(
-    ["analyticsList", domain],
-    {
+  const { data: analyticsData, isFetching: isFetchingAnalytics } =
+    api.analytics.list.useQuery(["analyticsList", domain], {
       query: {
         domain,
       },
-    }
-  );
+    });
+
+  const {
+    allSelected,
+    isIndeterminate,
+    selected,
+    toggleAll,
+    toggleRow,
+    clearSelection,
+  } = useTableCheckbox({
+    payload: analyticsData?.body.payload.map((item) => item.analyticId) || [],
+  });
 
   return (
     <div className="flex min-h-0 flex-col h-full">
       <Table>
         <Table.Header>
+          <Table.Head sticky="left">
+            <Checkbox
+              isChecked={allSelected}
+              onClick={toggleAll}
+              isIndeterminate={isIndeterminate}
+            />
+          </Table.Head>
           <Table.Head>Client</Table.Head>
           <Table.Head>Date</Table.Head>
           <Table.Head>URL</Table.Head>
@@ -33,14 +51,17 @@ export function AnalyticsTable() {
           <Table.Head>Cookie</Table.Head>
           <Table.Head>Location</Table.Head>
           <Table.Head>Bot</Table.Head>
-          <Table.Head />
+          <Table.Head sticky="right" />
         </Table.Header>
 
         <Table.Body>
           <AnalyticsTableBody
-            data={data?.body}
-            isLoading={isFetching}
+            data={analyticsData?.body}
+            isLoading={isFetchingAnalytics}
             domain={domain}
+            selected={selected}
+            toggleRow={toggleRow}
+            clearSelection={clearSelection}
           />
         </Table.Body>
       </Table>

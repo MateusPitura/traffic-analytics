@@ -14,6 +14,9 @@ interface AnalyticsTableBodyProperties {
   data: ClientInferResponseBody<typeof contract.analytics.list> | undefined;
   isLoading?: boolean;
   domain: string;
+  selected: Set<string>;
+  toggleRow: (_: string) => void;
+  clearSelection: () => void;
 }
 
 interface LinkClientDialogProps {
@@ -30,6 +33,9 @@ export function AnalyticsTableBody({
   data,
   domain,
   isLoading,
+  selected,
+  toggleRow,
+  clearSelection
 }: AnalyticsTableBodyProperties): ReactNode {
   const { data: clientListData, isFetching: isFetchingClientList } =
     api.clients.list.useQuery(["clientsList"]);
@@ -43,11 +49,18 @@ export function AnalyticsTableBody({
   const { mutate: linkToClient, isPending: isLinkingToClient } =
     api.analytics.linkToClient.useMutation({
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["analyticsList"] });
+        queryClient.invalidateQueries({ queryKey: ["analyticsList", domain] });
         queryClient.invalidateQueries({ queryKey: ["clientsList"] });
         setLinkClientDialog({ analyticItem: null, isOpen: false });
       },
     });
+
+  const { mutate: deleteAnalytics, isPending: isDeletingAnalytics } = api.analytics.delete.useMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["analyticsList", domain] });
+      clearSelection()
+    },
+  });
 
   if (isLoading || isFetchingClientList) {
     return (
@@ -93,8 +106,19 @@ export function AnalyticsTableBody({
           onClickLink={() =>
             setLinkClientDialog({ analyticItem: item, isOpen: true })
           }
-          onClickDelete={() => {}}
+          onClickDelete={(analyticsId) => {
+            if (selected.size > 1) {
+              deleteAnalytics({
+                body: { analyticIds: Array.from(selected), domain },
+              });
+            } else {
+              deleteAnalytics({ body: { analyticIds: [analyticsId], domain } });
+            }
+          }}
           key={item.analyticId}
+          isChecked={selected.has(item.analyticId)}
+          toggleRow={toggleRow}
+          disabled={isDeletingAnalytics}
         >
           <Table.Accordion>
             <div className="flex flex-col gap-2 py-2">

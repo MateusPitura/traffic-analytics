@@ -99,6 +99,7 @@ export function formatLocation(
       href={`https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
     >
       <ReactCountryFlag countryCode={country} /> {country}, {region}, {city}
     </a>

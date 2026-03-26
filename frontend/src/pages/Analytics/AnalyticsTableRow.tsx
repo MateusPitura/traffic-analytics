@@ -2,6 +2,7 @@ import { contract } from "@shared/contract";
 import { ClientInferResponses } from "@ts-rest/core";
 import { useMemo, type ReactNode } from "react";
 import { Button } from "../../components/ui/Button";
+import { Checkbox } from "../../components/ui/Form/Checkbox";
 import { Table } from "../../components/ui/Table";
 import { useIsOpen } from "../../hooks/useIsOpen";
 import { ArrowForward, Delete } from "../../icons";
@@ -26,7 +27,10 @@ interface AnalyticsTableRowProperties {
   domain: string;
   children: ReactNode;
   onClickLink: () => void;
-  onClickDelete: () => void;
+  onClickDelete: (_: string) => void;
+  isChecked: boolean;
+  toggleRow: (_: string) => void;
+  disabled?: boolean;
 }
 
 export function AnalyticsTableRow({
@@ -36,6 +40,9 @@ export function AnalyticsTableRow({
   clientList,
   onClickDelete,
   onClickLink,
+  isChecked,
+  toggleRow,
+  disabled,
 }: AnalyticsTableRowProperties): ReactNode {
   const { worker, client, events, clientId, analyticId } = item;
   const accordion = useIsOpen();
@@ -51,6 +58,12 @@ export function AnalyticsTableRow({
         variant={"body"}
         onClick={events ? accordion.toggle : undefined}
       >
+        <Table.Cell sticky="left">
+          <Checkbox
+            isChecked={isChecked}
+            onClick={() => toggleRow(analyticId)}
+          />
+        </Table.Cell>
         <Table.Cell className="flex gap-1 items-center">
           <span className="text-amber-400">{events?.length && "●"}</span>
           <ClientTag name={foundClient?.name} color={foundClient?.color} />
@@ -180,17 +193,23 @@ export function AnalyticsTableRow({
           )}
         </Table.Cell>
         <Table.Cell>{`${worker.verifiedBotCategory}`}</Table.Cell>
-        <Table.Cell>
-          <Button
-            variant={"tertiary"}
-            label={<Delete />}
-            onClick={onClickDelete}
-          />
-          {!item.clientId && <Button
-            variant={"tertiary"}
-            label={<ArrowForward />}
-            onClick={onClickLink}
-          />}
+        <Table.Cell sticky="right">
+          <div className="flex" onClick={(e) => e.stopPropagation()}>
+            <Button
+              variant={"tertiary"}
+              label={<Delete />}
+              onClick={() => onClickDelete(analyticId)}
+              disabled={disabled}
+            />
+            {!item.clientId && (
+              <Button
+                variant={"tertiary"}
+                label={<ArrowForward />}
+                onClick={onClickLink}
+                disabled={disabled}
+              />
+            )}
+          </div>
         </Table.Cell>
       </Table.Row>
       {accordion.isOpen && children}
