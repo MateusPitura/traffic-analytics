@@ -12,9 +12,7 @@ export const listAnalytics = async ({
 }: ListAnalyticsRequest): Promise<ListAnalyticsResponse> => {
   const { domain, cursor, clientId } = query;
 
-  const lastTimestamp = cursor ? Number(cursor) : undefined;
-
-  const result = await analyticsService.list(domain, lastTimestamp, clientId);
+  const result = await analyticsService.list(domain, cursor, clientId);
 
   return {
     status: 200,

@@ -14,7 +14,7 @@ const analyticsListQuery = s.object({
 const action = s.enumeration([Action.VISIT, Action.CLICK, Action.OTHER]);
 
 const analyticsListResponse = s.object({
-  nextCursor: s.number().nullable(),
+  nextCursor: s.string().nullable(),
   hasMore: s.boolean(),
   payload: s.array(
     s.object({

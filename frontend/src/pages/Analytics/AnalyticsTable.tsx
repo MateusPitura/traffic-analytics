@@ -1,18 +1,29 @@
+import { Button } from "../../components/ui/Button";
 import { Checkbox } from "../../components/ui/Form/Checkbox";
 import { Table } from "../../components/ui/Table";
 import { useTableCheckbox } from "../../components/ui/Table/useTableCheckbox";
 import { api } from "../../constants";
 import { analyticsRoute } from "../../routes";
 import { AnalyticsTableBody } from "./AnalyticsTableBody";
+import { usePagination } from "./usePagination";
+import { useFilters } from "./useSearchParams";
 
 export function AnalyticsTable() {
   const { domain } = analyticsRoute.useParams();
 
+  const { filters, setFilters } = useFilters();
+  const { cursorStack, handleNext, handlePrevious } = usePagination({
+    setFilters,
+  });
+
+  const query = {
+    ...filters,
+    domain,
+  };
+
   const { data: analyticsData, isFetching: isFetchingAnalytics } =
-    api.analytics.list.useQuery(["analyticsList", domain], {
-      query: {
-        domain,
-      },
+    api.analytics.list.useQuery(["analyticsList", query], {
+      query,
     });
 
   const {
@@ -66,8 +77,24 @@ export function AnalyticsTable() {
         </Table.Body>
       </Table>
       <div className="min-h-12 px-2 border-t border-outline flex gap-4 text-on-surface items-center">
-        <span>Next</span>
-        <span>Previous</span>
+        {cursorStack.length > 0 && (
+          <Button
+            variant="tertiary"
+            label="Previous"
+            onClick={handlePrevious}
+          />
+        )}
+        {analyticsData?.body.hasMore && (
+          <Button
+            variant="tertiary"
+            label="Next"
+            onClick={() => {
+              if (analyticsData.body.nextCursor) {
+                handleNext(analyticsData.body.nextCursor);
+              }
+            }}
+          />
+        )}
         <span>Showing 10 of 10</span>
       </div>
     </div>

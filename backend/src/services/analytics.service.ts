@@ -16,7 +16,7 @@ const LIST_QUERY_SORT: Path<DomainsCollection> = "client.timestamp";
 export const analyticsService = {
   async list(
     domainName: string,
-    lastTimestamp?: number,
+    lastTimestamp?: string,
     clientId?: string
   ): Promise<ListAnalyticsOutDto> {
     let query: Query = firestore.collection(domainName);
