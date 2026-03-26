@@ -26,6 +26,8 @@ export function AnalyticsTable() {
       query,
     });
 
+  const hasData = !!analyticsData?.body.payload.length;
+
   const {
     allSelected,
     isIndeterminate,
@@ -37,88 +39,94 @@ export function AnalyticsTable() {
     payload: analyticsData?.body.payload.map((item) => item.analyticId) || [],
   });
 
-  const hasData = !!analyticsData?.body.payload.length;
-
   return (
     <div className="flex min-h-0 flex-col h-full">
-      <Table>
-        <Table.Header>
-          <Table.Head sticky={hasData ? "left" : undefined}>
-            {hasData && (
-              <Checkbox
-                isChecked={allSelected}
-                onClick={toggleAll}
-                isIndeterminate={isIndeterminate}
+      <Table.Container>
+        <Table className={[!hasData && "pb-0"]}>
+          <Table.Header>
+            {/* 🌠 remove hasData */}
+            <Table.Head sticky={hasData ? "left" : undefined}>
+              {hasData && (
+                <Checkbox
+                  isChecked={allSelected}
+                  onClick={toggleAll}
+                  isIndeterminate={isIndeterminate}
+                />
+              )}
+            </Table.Head>
+            <Table.Head>Client</Table.Head>
+            <Table.Head>Date</Table.Head>
+            <Table.Head>URL</Table.Head>
+            <Table.Head>Referer</Table.Head>
+            <Table.Head>UA</Table.Head>
+            <Table.Head>Time Zone</Table.Head>
+            <Table.Head>Language</Table.Head>
+            <Table.Head>Screen</Table.Head>
+            <Table.Head>Connection</Table.Head>
+            <Table.Head>LocalStorage</Table.Head>
+            <Table.Head>Fingerprint</Table.Head>
+            <Table.Head>Cookie</Table.Head>
+            <Table.Head>Location</Table.Head>
+            <Table.Head>Bot</Table.Head>
+            {/* 🌠 remove hasData */}
+            <Table.Head sticky={hasData ? "right" : undefined} />
+          </Table.Header>
+
+          <Table.Body>
+            <AnalyticsTableBody
+              data={analyticsData?.body}
+              isLoading={isFetchingAnalytics}
+              domain={domain}
+              selected={selected}
+              toggleRow={toggleRow}
+              clearSelection={clearSelection}
+            />
+          </Table.Body>
+
+          {hasData && (
+            <Table.Footer>
+              <Table.Foot sticky="left" />
+              <Table.Foot />
+              <Table.Foot />
+              <Table.Foot />
+              <Table.Foot />
+              <Table.Foot />
+              <Table.Foot />
+              <Table.Foot />
+              <Table.Foot />
+              <Table.Foot />
+              <Table.Foot />
+              <Table.Foot>Count 10</Table.Foot>
+              <Table.Foot />
+              <Table.Foot />
+              <Table.Foot />
+              <Table.Foot sticky="right" />
+            </Table.Footer>
+          )}
+        </Table>
+        {hasData && (
+          <Table.Bottom>
+            {cursorStack.length > 0 && (
+              <Button
+                variant="tertiary"
+                label="Previous"
+                onClick={handlePrevious}
               />
             )}
-          </Table.Head>
-          <Table.Head>Client</Table.Head>
-          <Table.Head>Date</Table.Head>
-          <Table.Head>URL</Table.Head>
-          <Table.Head>Referer</Table.Head>
-          <Table.Head>UA</Table.Head>
-          <Table.Head>Time Zone</Table.Head>
-          <Table.Head>Language</Table.Head>
-          <Table.Head>Screen</Table.Head>
-          <Table.Head>Connection</Table.Head>
-          <Table.Head>LocalStorage</Table.Head>
-          <Table.Head>Fingerprint</Table.Head>
-          <Table.Head>Cookie</Table.Head>
-          <Table.Head>Location</Table.Head>
-          <Table.Head>Bot</Table.Head>
-          <Table.Head sticky={hasData ? "right" : undefined} />
-        </Table.Header>
-
-        <Table.Body>
-          <AnalyticsTableBody
-            data={analyticsData?.body}
-            isLoading={isFetchingAnalytics}
-            domain={domain}
-            selected={selected}
-            toggleRow={toggleRow}
-            clearSelection={clearSelection}
-          />
-        </Table.Body>
-
-        <Table.Footer>
-          <Table.Foot sticky="left" />
-          <Table.Foot />
-          <Table.Foot />
-          <Table.Foot />
-          <Table.Foot />
-          <Table.Foot />
-          <Table.Foot />
-          <Table.Foot />
-          <Table.Foot />
-          <Table.Foot />
-          <Table.Foot />
-          <Table.Foot>Count 10</Table.Foot>
-          <Table.Foot />
-          <Table.Foot />
-          <Table.Foot />
-          <Table.Foot sticky="right" />
-        </Table.Footer>
-      </Table>
-      <Table.Bottom>
-        {cursorStack.length > 0 && (
-          <Button
-            variant="tertiary"
-            label="Previous"
-            onClick={handlePrevious}
-          />
+            {analyticsData?.body.hasMore && (
+              <Button
+                variant="tertiary"
+                label="Next"
+                onClick={() => {
+                  if (analyticsData.body.nextCursor) {
+                    handleNext(analyticsData.body.nextCursor);
+                  }
+                }}
+              />
+            )}
+          </Table.Bottom>
         )}
-        {analyticsData?.body.hasMore && (
-          <Button
-            variant="tertiary"
-            label="Next"
-            onClick={() => {
-              if (analyticsData.body.nextCursor) {
-                handleNext(analyticsData.body.nextCursor);
-              }
-            }}
-          />
-        )}
-      </Table.Bottom>
+      </Table.Container>
     </div>
   );
 }

@@ -71,7 +71,9 @@ export function AnalyticsTableBody({
     );
   }
 
-  if (!data?.payload?.length || !clientListData?.body) {
+  const hasData = !!data?.payload.length;
+
+  if (!hasData || !clientListData?.body) {
     return (
       <Table.Empty
       className="flex items-center justify-center text-on-surface"
