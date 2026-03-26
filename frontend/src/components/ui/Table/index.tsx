@@ -144,15 +144,11 @@ function Cell({ children, className, sticky }: CellProps): ReactNode {
 
 interface FootProps {
   children?: ReactNode;
-  sticky?: "left" | "right";
 }
 
-function Foot({ children, sticky }: FootProps): ReactNode {
+function Foot({ children }: FootProps): ReactNode {
   return (
-    <Cell
-      className="after:content-[''] after:absolute after:left-0 after:right-0 after:-top-px after:h-0.5 after:border-outline after:border-t after:bg-surface"
-      sticky={sticky}
-    >
+    <Cell className="after:content-[''] after:absolute after:left-0 after:right-0 after:-top-px after:h-0.5 after:border-outline after:border-t after:bg-surface">
       {children}
     </Cell>
   );

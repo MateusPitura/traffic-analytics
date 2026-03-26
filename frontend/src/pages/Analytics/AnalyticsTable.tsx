@@ -85,7 +85,7 @@ export function AnalyticsTable() {
 
           {hasData && (
             <Table.Footer>
-              <Table.Foot sticky="left" />
+              <Table.Foot />
               <Table.Foot />
               <Table.Foot />
               <Table.Foot />
@@ -100,7 +100,7 @@ export function AnalyticsTable() {
               <Table.Foot />
               <Table.Foot />
               <Table.Foot />
-              <Table.Foot sticky="right" />
+              <Table.Foot />
             </Table.Footer>
           )}
         </Table>
