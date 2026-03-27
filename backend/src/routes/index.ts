@@ -1,4 +1,4 @@
-import { contract } from "@shared/contract";
+import { contract } from "../../../shared/src/contract";
 import { initServer } from "@ts-rest/express";
 
 import {

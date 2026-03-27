@@ -1,4 +1,4 @@
-import { DomainsCollection } from "@shared/types/firestore";
+import { DomainsCollection } from "../../../shared/src/types/firestore";
 
 export interface ListAnalyticsOutDto {
     payload: (DomainsCollection & { analyticId: string })[]

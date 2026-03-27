@@ -6,6 +6,9 @@ import svgr from "vite-plugin-svgr";
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    port: 8593,
+  },
   plugins: [
     react(),
     tailwindcss(),

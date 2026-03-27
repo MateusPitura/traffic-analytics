@@ -1,5 +1,5 @@
-import { Path } from "@shared/types";
-import { ClientsCollection, DomainsCollection } from "@shared/types/firestore";
+import { Path } from "../../../shared/src/types";
+import { ClientsCollection, DomainsCollection } from "../../../shared/src/types/firestore";
 import { FieldValue, Query } from "firebase-admin/firestore";
 import { firestore } from "../config/firestore";
 import { CLIENT_COLLECTION } from "../constants";

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { clientService } from "../services/client.service";
-import { contract } from "@shared/contract";
+import { contract } from "../../../shared/src/contract";
 import { ServerInferRequest, ServerInferResponses } from "@ts-rest/core";
 
 type CreateClientResponse = ServerInferResponses<

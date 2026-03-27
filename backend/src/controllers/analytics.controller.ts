@@ -1,4 +1,4 @@
-import { contract } from "@shared/contract";
+import { contract } from "../../../shared/src/contract";
 import { ServerInferRequest, ServerInferResponses } from "@ts-rest/core";
 import { analyticsService } from "../services/analytics.service";
 

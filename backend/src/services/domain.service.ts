@@ -1,5 +1,5 @@
-import { Path } from '@shared/types';
-import { DomainsCollection } from '@shared/types/firestore';
+import { Path } from '../../../shared/src/types';
+import { DomainsCollection } from '../../../shared/src/types/firestore';
 import { firestore } from "../config/firestore";
 import { CLIENT_COLLECTION } from "../constants";
 import { ListDomainsOutDto } from '../dtos/domain.dto';

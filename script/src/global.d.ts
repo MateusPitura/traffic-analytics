@@ -2,8 +2,8 @@ export {};
 
 declare global {
   interface Window {
-    analytics: {
-      addEvent: (metadata: string) => void;
+    analytics?: {
+      addEvent?: (metadata: string) => void;
     };
   }
 }
