@@ -78,13 +78,17 @@
 }
 /* END SCROLL BAR */
 
-.table-sticky-border {
+.table-sticky {
   container-type: scroll-state;
 }
 
 @container scroll-state(stuck: left) {
   .table-sticky-border::before {
     width: 1px;
+  }
+
+  .table-sticky-shadow {
+    width: 8px;
   }
 }
 

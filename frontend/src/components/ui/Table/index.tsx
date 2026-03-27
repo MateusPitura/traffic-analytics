@@ -90,7 +90,7 @@ function Head({ children, className, sticky }: HeadProps): ReactNode {
         "text-on-surface font-semibold text-sm h-12 px-2 text-start whitespace-nowrap relative",
         "after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-px after:bg-outline",
         !!sticky &&
-          "sticky z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:right-0 before:w-0 before:bg-outline table-sticky-border",
+          "sticky z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:right-0 before:w-0 before:bg-outline table-sticky table-sticky-border",
         sticky === "left" && "before:right-0 left-0",
         sticky === "right" && "before:left-0 right-0",
         className
@@ -98,7 +98,7 @@ function Head({ children, className, sticky }: HeadProps): ReactNode {
     >
       {children}
       {sticky === "left" && (
-        <div className="absolute top-0 -right-2 h-full w-2 bg-linear-to-r from-black/75 to-transparent" />
+        <div className="absolute top-0 -right-2 h-full w-0 bg-linear-to-r from-black/75 to-transparent table-sticky-shadow" />
       )}
     </th>
   );
@@ -116,7 +116,7 @@ function Cell({ children, className, sticky }: CellProps): ReactNode {
       className={cn(
         "whitespace-nowrap text-on-surface text-sm px-2 text-start group-hover:bg-surface-bright relative",
         !!sticky &&
-          "sticky z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:bg-outline table-sticky-border",
+          "sticky z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:bg-outline table-sticky table-sticky-border",
         sticky === "left" && "before:right-0 left-0",
         sticky === "right" && "before:left-0 right-0",
         className
@@ -124,7 +124,7 @@ function Cell({ children, className, sticky }: CellProps): ReactNode {
     >
       <div className={cn("h-12 max-h-12 flex items-center")}>{children}</div>
       {sticky === "left" && (
-        <div className="absolute top-0 -right-2 h-full w-2 bg-linear-to-r from-black/75 to-transparent" />
+        <div className="absolute top-0 -right-2 h-full w-0 bg-linear-to-r from-black/75 to-transparent table-sticky-shadow" />
       )}
     </td>
   );
