@@ -27,7 +27,7 @@ The script, hosted with jsDelivr, collects data when a page is visited, as well 
 📈 **Dashboard:** displays the collected data through a local dashboard
 
 <p align="center"> 
-  <img src="link do gif ou vídeo" width="25%"> 
+  <img src="https://github.com/user-attachments/assets/bdd8917a-63ce-44f0-8cd0-4183842358e2" width="100%"> 
 </p> 
 
 ## How to Run
