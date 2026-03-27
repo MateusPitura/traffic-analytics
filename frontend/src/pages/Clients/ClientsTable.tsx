@@ -60,7 +60,7 @@ function TableBody({ data, isLoading, onEditClient }: TableBodyProps) {
   }
 
   if (!data.length) {
-    return <Table.Empty className="text-center">No items found</Table.Empty>;
+    return <Table.Empty className="text-center text-on-surface">No items found</Table.Empty>;
   }
 
   return data.map((row) => (
