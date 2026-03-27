@@ -8,7 +8,7 @@ interface HandleEventsProperties {
 
 const CLICK_BATCH_DELAY = 3_000;
 
-let eventQueue: DomainsCollection['events'] = [];
+let eventQueue: DomainsCollection["events"] = [];
 let flushTimeout: number | null = null;
 
 function flushEvents() {
@@ -20,6 +20,20 @@ function flushEvents() {
   flushTimeout = null;
 }
 
+function addEvent(metadata: string, sessionId: string) {
+  eventQueue.push({
+    action: Action.CLICK,
+    sessionId,
+    timestamp: new Date().toISOString(),
+    metadata,
+    url: String(location?.href),
+  });
+
+  if (!flushTimeout) {
+    flushTimeout = window.setTimeout(flushEvents, CLICK_BATCH_DELAY);
+  }
+}
+
 export function handleEvents({ sessionId }: HandleEventsProperties): void {
   document.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
@@ -27,16 +41,10 @@ export function handleEvents({ sessionId }: HandleEventsProperties): void {
 
     if (!dataset) return;
 
-    eventQueue.push({
-      action: Action.CLICK,
-      sessionId,
-      timestamp: new Date().toISOString(),
-      metadata: dataset,
-      url: String(location?.href)
-    });
-
-    if (!flushTimeout) {
-      flushTimeout = window.setTimeout(flushEvents, CLICK_BATCH_DELAY);
-    }
+    addEvent(dataset, sessionId);
   });
+
+  window.analytics = {
+    addEvent: (metadata: string) => addEvent(metadata, sessionId),
+  };
 }
