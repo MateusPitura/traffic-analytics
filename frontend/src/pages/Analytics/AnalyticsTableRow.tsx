@@ -192,7 +192,7 @@ export function AnalyticsTableRow({
           )}
         </Table.Cell>
         <Table.Cell>
-          <span className="line-clamp-2 whitespace-normal">{`${worker.verifiedBotCategory}`}</span>
+          <span className="line-clamp-2 whitespace-normal">{worker.verifiedBotCategory}</span>
         </Table.Cell>
         <Table.Cell sticky="right">
           <div className="flex" onClick={(e) => e.stopPropagation()}>

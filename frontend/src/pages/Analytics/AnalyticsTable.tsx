@@ -42,7 +42,7 @@ export function AnalyticsTable() {
   return (
     <div className="flex min-h-0 flex-col h-full">
       <Table.Container>
-        <Table className={[!hasData && "pb-0"]}>
+        <Table>
           <Table.Header>
             <Table.Head sticky={"left"}>
               {hasData && (

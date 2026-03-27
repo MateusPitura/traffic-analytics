@@ -11,7 +11,7 @@ import { cn } from "../../../utils/cn";
 
 function Container({ children }: ChildrenProps): ReactNode {
   return (
-    <ScrollArea className="border border-outline overflow-hidden h-full rounded-lg">
+    <ScrollArea className="border border-outline overflow-hidden h-full rounded-lg has-data-table-bottom:[&>.target]:pb-11.75">
       {children}
       <Scrollbar
         orientation="vertical"
@@ -38,10 +38,10 @@ interface RootProps {
 function Root({ children, className }: RootProps): ReactNode {
   return (
       <Viewport
-        className={cn("w-full h-full *:h-full pb-[47px]", className)}
+        className={cn("w-full h-full *:h-full target", className)}
         id="table-container"
       >
-        <table className="w-full has-[&_[data-table-empty=true]]:h-full">
+        <table className="w-full has-data-table-empty:h-full">
           {children}
         </table>
       </Viewport>
@@ -70,7 +70,7 @@ function Footer({ children }: ChildrenProps): ReactNode {
 
 function Bottom({ children }: ChildrenProps): ReactNode {
   return (
-    <div className="min-h-12 px-2 flex gap-4 text-on-surface items-center z-20 sticky bottom-0 bg-surface border-t border-outline">
+    <div data-table-bottom className="min-h-12 px-2 flex gap-4 text-on-surface items-center z-20 sticky bottom-0 bg-surface border-t border-outline">
       {children}
     </div>
   );
