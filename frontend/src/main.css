@@ -96,4 +96,8 @@
   .table-sticky-border::before {
     width: 1px;
   }
+
+  .table-sticky-shadow {
+    width: 8px;
+  }
 }

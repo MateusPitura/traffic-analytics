@@ -48,7 +48,7 @@ function Root({ children, className }: RootProps): ReactNode {
 
 function Header({ children }: ChildrenProps): ReactNode {
   return (
-    <thead className="sticky top-0 z-20 bg-surface">
+    <thead className="sticky top-0 z-20 shadow-lg shadow-black/75">
       <Table.Row className="border-none">{children}</Table.Row>
     </thead>
   );
@@ -100,6 +100,9 @@ function Head({ children, className, sticky }: HeadProps): ReactNode {
       {sticky === "left" && (
         <div className="absolute top-0 -right-2 h-full w-0 bg-linear-to-r from-black/75 to-transparent table-sticky-shadow" />
       )}
+      {sticky === "right" && (
+        <div className="absolute top-0 -left-2 h-full w-0 bg-linear-to-l from-black/75 to-transparent table-sticky-shadow" />
+      )}
     </th>
   );
 }
@@ -125,6 +128,9 @@ function Cell({ children, className, sticky }: CellProps): ReactNode {
       <div className={cn("h-12 max-h-12 flex items-center")}>{children}</div>
       {sticky === "left" && (
         <div className="absolute top-0 -right-2 h-full w-0 bg-linear-to-r from-black/75 to-transparent table-sticky-shadow" />
+      )}
+      {sticky === "right" && (
+        <div className="absolute top-0 -left-2 h-full w-0 bg-linear-to-l from-black/75 to-transparent table-sticky-shadow" />
       )}
     </td>
   );
