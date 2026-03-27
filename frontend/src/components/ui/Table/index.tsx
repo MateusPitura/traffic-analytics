@@ -37,14 +37,12 @@ interface RootProps {
 
 function Root({ children, className }: RootProps): ReactNode {
   return (
-      <Viewport
-        className={cn("w-full h-full *:h-full target", className)}
-        id="table-container"
-      >
-        <table className="w-full has-data-table-empty:h-full">
-          {children}
-        </table>
-      </Viewport>
+    <Viewport
+      className={cn("w-full h-full *:h-full target", className)}
+      id="table-container"
+    >
+      <table className="w-full has-data-table-empty:h-full">{children}</table>
+    </Viewport>
   );
 }
 
@@ -70,7 +68,10 @@ function Footer({ children }: ChildrenProps): ReactNode {
 
 function Bottom({ children }: ChildrenProps): ReactNode {
   return (
-    <div data-table-bottom className="min-h-12 px-2 flex gap-4 text-on-surface items-center z-20 sticky bottom-0 bg-surface border-t border-outline">
+    <div
+      data-table-bottom
+      className="min-h-12 px-2 flex gap-4 text-on-surface items-center z-20 sticky bottom-0 bg-surface border-t border-outline"
+    >
       {children}
     </div>
   );
@@ -86,7 +87,7 @@ function Head({ children, className, sticky }: HeadProps): ReactNode {
   return (
     <th
       className={cn(
-        "text-on-surface font-semibold text-sm h-12 px-2 text-start whitespace-nowrap",
+        "text-on-surface font-semibold text-sm h-12 px-2 text-start whitespace-nowrap relative",
         "after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-px after:bg-outline",
         !!sticky &&
           "sticky z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:right-0 before:w-0 before:bg-outline table-sticky-border",
@@ -96,6 +97,9 @@ function Head({ children, className, sticky }: HeadProps): ReactNode {
       )}
     >
       {children}
+      {sticky === "left" && (
+        <div className="absolute top-0 -right-2 h-full w-2 bg-linear-to-r from-black/75 to-transparent" />
+      )}
     </th>
   );
 }
@@ -110,7 +114,7 @@ function Cell({ children, className, sticky }: CellProps): ReactNode {
   return (
     <td
       className={cn(
-        "whitespace-nowrap text-on-surface text-sm px-2 text-start group-hover:bg-surface-bright",
+        "whitespace-nowrap text-on-surface text-sm px-2 text-start group-hover:bg-surface-bright relative",
         !!sticky &&
           "sticky z-10 bg-surface before:content-[''] before:absolute before:top-0 before:bottom-0 before:bg-outline table-sticky-border",
         sticky === "left" && "before:right-0 left-0",
@@ -119,6 +123,9 @@ function Cell({ children, className, sticky }: CellProps): ReactNode {
       )}
     >
       <div className={cn("h-12 max-h-12 flex items-center")}>{children}</div>
+      {sticky === "left" && (
+        <div className="absolute top-0 -right-2 h-full w-2 bg-linear-to-r from-black/75 to-transparent" />
+      )}
     </td>
   );
 }
