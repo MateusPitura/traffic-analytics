@@ -85,7 +85,7 @@ export function AnalyticsTableRow({
           <span
             className={cn(
               isGreaterThanOneMinute(client.timestamp, worker.timestamp) &&
-                "underline decoration-amber-400"
+                "underline decoration-amber-400",
             )}
           >
             {formatRelativeDate(client.timestamp)}
@@ -93,26 +93,28 @@ export function AnalyticsTableRow({
         </AnalyticsTableCell>
         <AnalyticsTableCell
           tooltip={
-            client.url !== worker.referer ? (
-              <span className="text-amber-400">
-                {formatUrl(worker.referer)}
-              </span>
-            ) : (
-              ""
-            )
+            <span>
+              {formatUrl(client.url).replace(domain, "")}{" "}
+              {client.url !== worker.referer && (
+                <div className="text-amber-400">
+                  {formatUrl(worker.referer)}
+                </div>
+              )}
+            </span>
           }
           className="max-w-56"
         >
           <span
             className={cn(
-              client.url !== worker.referer && "underline decoration-amber-400"
+              "truncate",
+              client.url !== worker.referer && "underline decoration-amber-400",
             )}
           >
             {formatUrl(client.url).replace(domain, "")}
           </span>
         </AnalyticsTableCell>
+        <Table.Cell>{getUtmId(client.url)}</Table.Cell>
         <Table.Cell>{formatUrl(client.referer)}</Table.Cell>
-        <Table.Cell>{getUtmId(client.referer)}</Table.Cell>
         <AnalyticsTableCell
           tooltip={
             <span>
@@ -125,7 +127,7 @@ export function AnalyticsTableRow({
         >
           <span
             className={cn(
-              client.ua !== worker.ua && "underline decoration-amber-400"
+              client.ua !== worker.ua && "underline decoration-amber-400",
             )}
           >
             {formatUa(client.ua)}
@@ -141,7 +143,7 @@ export function AnalyticsTableRow({
           <span
             className={cn(
               worker.timezone !== client.timezone &&
-                "underline decoration-amber-400"
+                "underline decoration-amber-400",
             )}
           >
             {client.timezone}
@@ -193,7 +195,7 @@ export function AnalyticsTableRow({
             worker.region,
             worker.city,
             worker.latitude,
-            worker.longitude
+            worker.longitude,
           )}
         </Table.Cell>
         <Table.Cell>
