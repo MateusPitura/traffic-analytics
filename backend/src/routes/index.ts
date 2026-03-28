@@ -1,4 +1,3 @@
-import { contract } from "../../../shared/src/contract";
 import { initServer } from "@ts-rest/express";
 
 import {
@@ -12,6 +11,7 @@ import {
   updateClient,
 } from "../controllers/client.controller";
 import { listDomains } from "../controllers/domain.controller";
+import { contract } from "@shared/contract";
 
 const s = initServer();
 

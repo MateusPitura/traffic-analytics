@@ -1,4 +1,4 @@
-import { ClientsCollection } from "../../../shared/src/types/firestore";
+import { ClientsCollection } from "@shared/types/firestore";
 import { firestore } from "../config/firestore";
 import { CLIENT_COLLECTION } from "../constants";
 import { CreateClientInDto, CreateClientOutDto, ListClientsOutDTO, UpdateClientInDto, UpdateClientOutDto } from "../dtos/client.dto";

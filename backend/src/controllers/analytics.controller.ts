@@ -1,6 +1,6 @@
-import { contract } from "../../../shared/src/contract";
 import { ServerInferRequest, ServerInferResponses } from "@ts-rest/core";
 import { analyticsService } from "../services/analytics.service";
+import { contract } from "@shared/contract";
 
 type ListAnalyticsResponse = ServerInferResponses<
   typeof contract.analytics.list

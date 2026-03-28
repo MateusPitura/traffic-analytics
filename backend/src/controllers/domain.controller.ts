@@ -1,6 +1,6 @@
-import { contract } from "../../../shared/src/contract";
 import { ServerInferResponses } from "@ts-rest/core";
 import { domainService } from "../services/domain.service";
+import { contract } from "@shared/contract";
 
 type ListDomainsResponse = ServerInferResponses<typeof contract.domains.list>;
 

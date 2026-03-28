@@ -1,8 +1,8 @@
 import express from "express";
 import { router } from "./routes";
 import { createExpressEndpoints } from "@ts-rest/express";
-import { contract } from "../../shared/src/contract";
 import cors from "cors";
+import { contract } from "@shared/contract";
 
 const app = express();
 

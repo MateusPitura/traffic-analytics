@@ -1,5 +1,3 @@
-import { Path } from "../../../shared/src/types";
-import { ClientsCollection, DomainsCollection } from "../../../shared/src/types/firestore";
 import { FieldValue, Query } from "firebase-admin/firestore";
 import { firestore } from "../config/firestore";
 import { CLIENT_COLLECTION } from "../constants";
@@ -8,6 +6,8 @@ import {
   ListAnalyticsOutDto,
   RemoveManyAnalyticsOutDto,
 } from "../dtos/analytics.dto";
+import { ClientsCollection, DomainsCollection } from "@shared/types/firestore";
+import { Path } from "@shared/types";
 
 const PAGE_SIZE = 20;
 const LIST_QUERY_WHERE: Path<DomainsCollection> = "clientId";

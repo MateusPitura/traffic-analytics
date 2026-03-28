@@ -1,4 +1,4 @@
-import { ClientsCollection } from "../../../shared/src/types/firestore";
+import { ClientsCollection } from "@shared/types/firestore";
 
 export type CreateClientInDto = Pick<
   ClientsCollection,
