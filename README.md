@@ -69,4 +69,4 @@ The script, hosted with jsDelivr, collects data when a page is visited, as well 
 | Mateus Pitura | 
 |------|
 | <p align="center"><img src="https://avatars.githubusercontent.com/u/119008106" width="100" height="100"></p> |  
-| <a href="https://www.linkedin.com/in/mateuspitura/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&goColor=white"> |
+| <a href="https://url.mateuspitura.com?q=linkedin.com/in/mateuspitura/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"> |
