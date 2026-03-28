@@ -6,10 +6,10 @@ import {
 } from "@radix-ui/react-scroll-area";
 import { ClassValue } from "clsx";
 import { type ReactNode } from "react";
-import { ChildrenProps } from "../../../types";
 import { cn } from "../../../utils/cn";
+import { PropsWithChildren } from "react";
 
-function Container({ children }: ChildrenProps): ReactNode {
+function Container({ children }: PropsWithChildren): ReactNode {
   return (
     <ScrollArea className="border border-outline overflow-hidden h-full rounded-lg has-data-table-bottom:[&>.target]:pb-11.75">
       {children}
@@ -31,11 +31,10 @@ function Container({ children }: ChildrenProps): ReactNode {
 }
 
 interface RootProps {
-  children: ReactNode;
   className?: ClassValue;
 }
 
-function Root({ children, className }: RootProps): ReactNode {
+function Root({ children, className }: PropsWithChildren<RootProps>): ReactNode {
   return (
     <Viewport
       className={cn("w-full h-full *:h-full target", className)}
@@ -46,7 +45,7 @@ function Root({ children, className }: RootProps): ReactNode {
   );
 }
 
-function Header({ children }: ChildrenProps): ReactNode {
+function Header({ children }: PropsWithChildren): ReactNode {
   return (
     <thead className="sticky top-0 z-20 shadow-lg shadow-black/75">
       <Table.Row className="border-none">{children}</Table.Row>
@@ -54,11 +53,11 @@ function Header({ children }: ChildrenProps): ReactNode {
   );
 }
 
-function Body({ children }: ChildrenProps): ReactNode {
+function Body({ children }: PropsWithChildren): ReactNode {
   return <tbody className="min-h-full">{children}</tbody>;
 }
 
-function Footer({ children }: ChildrenProps): ReactNode {
+function Footer({ children }: PropsWithChildren): ReactNode {
   return (
     <tfoot className="sticky bottom-0 z-20 bg-surface">
       <Table.Row>{children}</Table.Row>
@@ -66,7 +65,7 @@ function Footer({ children }: ChildrenProps): ReactNode {
   );
 }
 
-function Bottom({ children }: ChildrenProps): ReactNode {
+function Bottom({ children }: PropsWithChildren): ReactNode {
   return (
     <div
       data-table-bottom
@@ -78,12 +77,11 @@ function Bottom({ children }: ChildrenProps): ReactNode {
 }
 
 interface HeadProps {
-  children?: ReactNode;
   className?: ClassValue;
   sticky?: "left" | "right";
 }
 
-function Head({ children, className, sticky }: HeadProps): ReactNode {
+function Head({ children, className, sticky }: PropsWithChildren<HeadProps>): ReactNode {
   return (
     <th
       className={cn(
@@ -108,12 +106,11 @@ function Head({ children, className, sticky }: HeadProps): ReactNode {
 }
 
 interface CellProps {
-  children?: ReactNode;
   className?: ClassValue;
   sticky?: "left" | "right";
 }
 
-function Cell({ children, className, sticky }: CellProps): ReactNode {
+function Cell({ children, className, sticky }: PropsWithChildren<CellProps>): ReactNode {
   return (
     <td
       className={cn(
@@ -136,11 +133,7 @@ function Cell({ children, className, sticky }: CellProps): ReactNode {
   );
 }
 
-interface FootProps {
-  children?: ReactNode;
-}
-
-function Foot({ children }: FootProps): ReactNode {
+function Foot({ children }: PropsWithChildren): ReactNode {
   return (
     <Cell className="after:content-[''] after:absolute after:left-0 after:right-0 after:-top-px after:h-0.5 after:border-outline after:border-t after:bg-surface">
       {children}
@@ -149,12 +142,11 @@ function Foot({ children }: FootProps): ReactNode {
 }
 
 interface RowProps {
-  children: ReactNode;
   className?: ClassValue;
   onClick?: () => void;
 }
 
-function Row({ children, className, onClick }: RowProps): ReactNode {
+function Row({ children, className, onClick }: PropsWithChildren<RowProps>): ReactNode {
   return (
     <tr
       className={cn("border-b border-outline group bg-surface", className)}
@@ -166,11 +158,10 @@ function Row({ children, className, onClick }: RowProps): ReactNode {
 }
 
 interface EmptyProps {
-  children: ReactNode;
-  className?: string;
+  children: ReactNode;className?: string;
 }
 
-function Empty({ children, className }: EmptyProps) {
+function Empty({ children, className }: PropsWithChildren<EmptyProps>) {
   return (
     <Table.Row className="border-none">
       <td colSpan={100}>
@@ -183,11 +174,10 @@ function Empty({ children, className }: EmptyProps) {
 }
 
 interface AccordionProps {
-  children: ReactNode;
   className?: ClassValue;
 }
 
-function Accordion({ children, className }: AccordionProps): ReactNode {
+function Accordion({ children, className }: PropsWithChildren<AccordionProps>): ReactNode {
   return (
     <Table.Row>
       <td
