@@ -1,12 +1,19 @@
-let raw = window.location.pathname.slice(1);
+import { collectVisitData } from "@script/collectVisitData";
+import { sendToWorker } from "@script/sendToWorker";
 
-raw = decodeURIComponent(raw);
+const visitData = await collectVisitData();
 
-if (raw) {
+sendToWorker(visitData);
+
+let rawUrl = window.location.pathname.slice(1);
+
+rawUrl = decodeURIComponent(rawUrl);
+
+if (rawUrl) {
   const search = window.location.search;
   const hash = window.location.hash;
 
-  const target = raw + search + hash;
+  const target = rawUrl + search + hash;
 
   window.location.replace(`https://${target}`);
 }
