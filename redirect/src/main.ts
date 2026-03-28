@@ -5,15 +5,12 @@ const visitData = await collectVisitData();
 
 sendToWorker(visitData);
 
-let rawUrl = window.location.pathname.slice(1);
+const params = new URLSearchParams(window.location.search);
 
-rawUrl = decodeURIComponent(rawUrl);
+let rawUrl = params.get("q");
 
 if (rawUrl) {
-  const search = window.location.search;
-  const hash = window.location.hash;
+  rawUrl = decodeURIComponent(rawUrl);
 
-  const target = rawUrl + search + hash;
-
-  window.location.replace(`https://${target}`);
+  window.location.replace(`https://${rawUrl}`);
 }
