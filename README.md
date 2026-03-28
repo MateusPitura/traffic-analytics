@@ -11,7 +11,7 @@
 
 A script that can be embedded in a website to collect traffic data. The data is then stored in a database and can be accessed through a dashboard
 
-The script, hosted with jsDelivr, collects data when a page is visited, as well as when an element with a dataset attribute is clicked or a global function is called. A Cloudflare Worker collects the data, processes it, enriches it with additional information such as location, and sends it to Firebase. Then, a backend in TypeScript and a frontend in React, running locally, consume the data to display it in a dashboard
+The script, hosted with jsDelivr, collects data when a page is visited, as well as when an element with a dataset attribute is clicked or a global function is called. A Cloudflare Worker collects the data, processes it, enriches it with additional information such as location, and sends it to Firebase. Then, a backend in TypeScript and a frontend in React, running locally, consume the data to display it in a dashboard. It is also possible to collect data by redirecting through a custom domain and passing the destination URL as a parameter
 
 - [Features](#features)
 - [How to Run](#how-to-run)
