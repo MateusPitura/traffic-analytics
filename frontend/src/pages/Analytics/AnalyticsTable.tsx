@@ -56,6 +56,7 @@ export function AnalyticsTable() {
             <Table.Head>Client</Table.Head>
             <Table.Head>Date</Table.Head>
             <Table.Head>URL</Table.Head>
+            <Table.Head>utm_id</Table.Head>
             <Table.Head>Referer</Table.Head>
             <Table.Head>UA</Table.Head>
             <Table.Head>Time Zone</Table.Head>
@@ -83,6 +84,7 @@ export function AnalyticsTable() {
 
           {hasData && (
             <Table.Footer>
+              <Table.Foot />
               <Table.Foot />
               <Table.Foot />
               <Table.Foot />

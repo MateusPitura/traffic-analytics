@@ -7,6 +7,10 @@ export function formatUrl(url: string): string {
   return url.replace(/^(https?:\/\/)?(www\.)?/, "");
 }
 
+export function getUtmId(url: string): string {
+  return new URL(url).searchParams.get("utm_id") ?? "";
+}
+
 const mapBrowserNameToIcon: Record<string, ReactNode> = {
   Chrome: <Chrome />,
   Edge: <Edge />,

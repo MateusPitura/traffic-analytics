@@ -15,6 +15,7 @@ import {
   formatRelativeDate,
   formatUa,
   formatUrl,
+  getUtmId,
   isGreaterThanOneMinute,
 } from "./formatters";
 
@@ -100,6 +101,7 @@ export function AnalyticsTableRow({
               ""
             )
           }
+          className="max-w-56"
         >
           <span
             className={cn(
@@ -110,6 +112,7 @@ export function AnalyticsTableRow({
           </span>
         </AnalyticsTableCell>
         <Table.Cell>{formatUrl(client.referer)}</Table.Cell>
+        <Table.Cell>{getUtmId(client.referer)}</Table.Cell>
         <AnalyticsTableCell
           tooltip={
             <span>
