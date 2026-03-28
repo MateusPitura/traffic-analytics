@@ -1,0 +1,8 @@
+{
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "BACKEND_URL": "http://localhost:8592"
+    }
+  },
+  "tailwindCSS.classFunctions": ["cva"]
+}
