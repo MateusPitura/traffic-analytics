@@ -1,7 +1,15 @@
 import Bowser from "bowser";
 import { ReactNode } from "react";
 import ReactCountryFlag from "react-country-flag";
-import { Android, Apple, Chrome, Edge, Firefox, Linux, Windows } from "../../icons";
+import {
+  Android,
+  Apple,
+  Chrome,
+  Edge,
+  Firefox,
+  Linux,
+  Windows,
+} from "../../icons";
 
 export function formatUrl(url: string): string {
   return url.replace(/^(https?:\/\/)?(www\.)?/, "");
@@ -45,7 +53,7 @@ export function formatUa(ua: string): ReactNode {
   );
 }
 
-export function formatRelativeDate(timestamp: string): string | undefined {
+export function formatDate(timestamp: string): string | undefined {
   const date = new Date(timestamp);
   const now = new Date();
 
@@ -63,6 +71,8 @@ export function formatRelativeDate(timestamp: string): string | undefined {
     relative = `${hours} hour`;
   } else if (days < 7) {
     relative = `${days} day`;
+  } else {
+    relative = formatAbsoluteDate(timestamp);
   }
 
   return relative;
@@ -85,7 +95,7 @@ export function formatAbsoluteDate(timestamp: string): string | undefined {
   const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
 
   const formatted = `${get("hour")}:${get("minute")} (${get("weekday")}) ${get(
-    "day"
+    "day",
   )}/${get("month")}/${get("year")}`;
 
   return formatted;
@@ -96,7 +106,7 @@ export function formatLocation(
   region: string,
   city: string,
   latitude: string,
-  longitude: string
+  longitude: string,
 ): ReactNode {
   return (
     <a
@@ -112,7 +122,7 @@ export function formatLocation(
 
 export function isGreaterThanOneMinute(date1: string, date2: string): boolean {
   const diffInMs = Math.abs(
-    new Date(date1).getTime() - new Date(date2).getTime()
+    new Date(date1).getTime() - new Date(date2).getTime(),
   );
   const oneMinuteInMs = 60 * 1000;
 

@@ -10,13 +10,13 @@ import { cn } from "../../utils/cn";
 import { ClientTag } from "../Clients/ClientTag";
 import { AnalyticsTableCell } from "./AnalyticsTableCell";
 import {
-  formatAbsoluteDate,
-  formatLocation,
-  formatRelativeDate,
-  formatUa,
-  formatUrl,
-  getUtmId,
-  isGreaterThanOneMinute,
+    formatAbsoluteDate,
+    formatDate,
+    formatLocation,
+    formatUa,
+    formatUrl,
+    getUtmId,
+    isGreaterThanOneMinute,
 } from "./formatters";
 
 interface AnalyticsTableRowProperties {
@@ -88,7 +88,7 @@ export function AnalyticsTableRow({
                 "underline decoration-amber-400",
             )}
           >
-            {formatRelativeDate(client.timestamp)}
+            {formatDate(client.timestamp)}
           </span>
         </AnalyticsTableCell>
         <AnalyticsTableCell

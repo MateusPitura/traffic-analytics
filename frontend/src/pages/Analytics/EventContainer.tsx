@@ -2,11 +2,7 @@ import { contract } from "@shared/contract";
 import { ClientInferResponses } from "@ts-rest/core";
 import type { ReactNode } from "react";
 import { Tooltip } from "../../components/ui/Tooltip";
-import {
-  formatAbsoluteDate,
-  formatRelativeDate,
-  formatUrl,
-} from "./formatters";
+import { formatAbsoluteDate, formatDate, formatUrl } from "./formatters";
 
 interface EventContainerProperties {
   item: NonNullable<
@@ -22,7 +18,7 @@ export function EventContainer({ item }: EventContainerProperties): ReactNode {
     <div className="flex gap-2 text-secondary">
       <span className="font-semibold">Date:</span>
       <Tooltip content={formatAbsoluteDate(item.timestamp)}>
-        <span>{formatRelativeDate(item.timestamp)}</span>
+        <span>{formatDate(item.timestamp)}</span>
       </Tooltip>
       <span className="font-semibold">URL:</span>
       <span>{formatUrl(item.url)}</span>
