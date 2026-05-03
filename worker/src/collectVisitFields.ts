@@ -58,5 +58,6 @@ export function collectVisitFields({ request, body, cookieId }: CollectVisitFiel
 				},
 			},
 		},
+		lastSeen: s(new Date().toISOString()),
 	};
 }

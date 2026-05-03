@@ -57,4 +57,5 @@ export interface DomainsCollection {
     url: string;
     metadata: string;
   }[];
+  lastSeen: string;
 }

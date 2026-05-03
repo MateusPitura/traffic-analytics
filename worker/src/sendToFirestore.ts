@@ -1,3 +1,4 @@
+import { s } from './formatToStringValue';
 import { Env, Fields } from './types';
 
 export async function sendToFirestore(env: Env, fields: Fields) {
@@ -17,9 +18,20 @@ export async function sendToFirestore(env: Env, fields: Fields) {
 		}
 
 		const documentId = fields[0].sessionId.stringValue;
-		const collectionName = new URL(fields[0].url.stringValue).hostname
-	
+		const collectionName = new URL(fields[0].url.stringValue).hostname;
+
 		writes = [
+			{
+				update: {
+					name: `projects/${projectId}/databases/(default)/documents/${collectionName}/${documentId}`,
+					fields: {
+						lastSeen: s(new Date().toISOString()),
+					},
+				},
+				updateMask: {
+					fieldPaths: ['lastSeen'],
+				},
+			},
 			{
 				transform: {
 					document: `projects/${projectId}/databases/(default)/documents/${collectionName}/${documentId}`,
@@ -37,7 +49,7 @@ export async function sendToFirestore(env: Env, fields: Fields) {
 	} else {
 		const documentId = fields.client.mapValue.fields.sessionId.stringValue;
 		const collectionName = new URL(fields.client.mapValue.fields.url.stringValue).hostname;
-	
+
 		writes = {
 			update: {
 				name: `projects/${projectId}/databases/(default)/documents/${collectionName}/${documentId}`,
