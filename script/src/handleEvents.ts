@@ -1,23 +1,19 @@
 import { Action } from "@shared/types";
-import { sendToWorker } from "./sendToWorker";
 import type { DomainsCollection } from "@shared/types/firestore";
+import { BATCH_DELAY } from "./constants";
+import { getPresenceEvent } from "./getPresenceEvent";
+import { sendToWorker } from "./sendToWorker";
 
 interface HandleEventsProperties {
   sessionId: string;
 }
 
-const CLICK_BATCH_DELAY = 3_000;
-
 let eventQueue: DomainsCollection["events"] = [];
-let flushTimeout: number | null = null;
 
-function flushEvents() {
-  if (eventQueue.length === 0) return;
-
+function flushEvents(sessionId: string) {
   sendToWorker(eventQueue);
 
-  eventQueue = [];
-  flushTimeout = null;
+  eventQueue = [getPresenceEvent(sessionId)];
 }
 
 function addEvent(metadata: string, sessionId: string) {
@@ -28,13 +24,12 @@ function addEvent(metadata: string, sessionId: string) {
     metadata,
     url: String(location?.href),
   });
-
-  if (!flushTimeout) {
-    flushTimeout = window.setTimeout(flushEvents, CLICK_BATCH_DELAY);
-  }
 }
 
 export function handleEvents({ sessionId }: HandleEventsProperties): void {
+  eventQueue = [getPresenceEvent(sessionId)];
+  window.setInterval(() => flushEvents(sessionId), BATCH_DELAY);
+
   document.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
     const dataset = target?.dataset?.["analytics"];

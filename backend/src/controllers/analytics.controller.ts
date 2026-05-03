@@ -1,6 +1,6 @@
+import { contract } from "@shared/contract";
 import { ServerInferRequest, ServerInferResponses } from "@ts-rest/core";
 import { analyticsService } from "../services/analytics.service";
-import { contract } from "@shared/contract";
 
 type ListAnalyticsResponse = ServerInferResponses<
   typeof contract.analytics.list
@@ -56,7 +56,7 @@ export const linkToClientAnalytics = async ({
     const result = await analyticsService.linkToClient(
       domain,
       analyticId,
-      clientId
+      clientId,
     );
 
     return {

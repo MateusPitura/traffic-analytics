@@ -8,20 +8,16 @@ sendToWorker(visitData);
 
 const params = new URLSearchParams(window.location.search);
 
+let url;
+
 const utmId = params.get("r");
-
 if (utmId) {
-  const url = mapUtmIdToUrl[utmId];
-
-  if (url) {
-    window.location.replace(`https://${url}`);
-  }
+  url = mapUtmIdToUrl[utmId];
 }
 
-let rawUrl = params.get("q");
-
-if (rawUrl) {
-  rawUrl = decodeURIComponent(rawUrl);
-
-  window.location.replace(`https://${rawUrl}`);
+const query = params.get("q");
+if (query) {
+  url = decodeURIComponent(query);
 }
+
+window.location.replace(`https://${url}`);

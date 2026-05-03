@@ -11,7 +11,12 @@ const analyticsListQuery = s.object({
   clientId: s.string().optional(),
 });
 
-const action = s.enumeration([Action.VISIT, Action.CLICK, Action.OTHER]);
+const action = s.enumeration([
+  Action.VISIT,
+  Action.CLICK,
+  Action.OTHER,
+  Action.PRESENCE,
+]);
 
 const analyticsListResponse = s.object({
   nextCursor: s.string().nullable(),
@@ -57,16 +62,18 @@ const analyticsListResponse = s.object({
         asOrganization: s.string(),
         verifiedBotCategory: s.string(),
       }),
-      events: s.array(
-        s.object({
-          timestamp: s.string(),
-          action,
-          sessionId: s.string(),
-          url: s.string(),
-          metadata: s.string(),
-        })
-      ).optional(),
-    })
+      events: s
+        .array(
+          s.object({
+            timestamp: s.string(),
+            action,
+            sessionId: s.string(),
+            url: s.string(),
+            metadata: s.string(),
+          }),
+        )
+        .optional(),
+    }),
   ),
 });
 
