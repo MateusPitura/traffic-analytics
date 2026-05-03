@@ -6,7 +6,7 @@ import { getOnlineThreshold } from "../utils/getOnlineThreshold";
 
 const INTERVAL_TIME = 1_000;
 
-const WORKER_LAST_SEEN: Path<DomainsCollection> = "worker.timestamp";
+const WORKER_LAST_SEEN: Path<DomainsCollection> = "lastSeen";
 
 export const sseService = {
   onlineClients(
@@ -25,8 +25,8 @@ export const sseService = {
       });
 
     const interval = setInterval(() => {
-      const countOnline = analytics.filter((item) =>
-        item.events?.some((event) => event.timestamp > getOnlineThreshold()),
+      const countOnline = analytics.filter(
+        (item) => item.lastSeen > getOnlineThreshold(),
       ).length;
 
       callback({ count: countOnline });
