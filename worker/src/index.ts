@@ -8,7 +8,7 @@ export default {
 		const origin = request.headers.get('Origin');
 		let corsOrigin = '';
 
-		if (origin && allowedOrigins.includes(origin)) {
+		if (origin && allowedOrigins.some(allowedOrigin => origin.includes(allowedOrigin))) {
 			corsOrigin = origin;
 		}
 
